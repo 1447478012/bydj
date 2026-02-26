@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-credit-card"></i> 订单支付
+    </div>
+    <div class="card-body">
+        <p>订单号：<strong>{{ order.order_no }}</strong></p>
+        {% set need_pay = order.customer_price - (order.balance_used or 0) %}
+        <p>应付金额：<strong>￥{{ "%.2f"|format(order.customer_price) }}</strong></p>
+        {% if customer and (customer.balance or 0) > 0 and not (order.balance_used or 0) %}
+        <div class="alert alert-info">
+            <strong>当前余额：￥{{ "%.2f"|format(customer.balance) }}</strong>（购买会员等充值金额，可用于本单抵扣）
+        </div>
+        <form method="POST" action="{{ url_for('customer_pay_confirm', order_id=order.id) }}" class="mb-4">
+            <div class="mb-3">
+                <label class="form-label">使用余额抵扣（元）</label>
+                <input type="number" name="balance_used" class="form-control" step="0.01" min="0" max="{{ [customer.balance, order.customer_price]|min }}" value="{{ [customer.balance, need_pay]|min if need_pay > 0 else 0 }}" placeholder="0">
+                <small class="text-muted">最多可使用 ￥{{ "%.2f"|format([customer.balance, order.customer_price]|min) }}</small>
+            </div>
+            <button type="submit" class="btn btn-primary">确认抵扣并继续</button>
+        </form>
+        <p class="text-muted small">若余额不足或不想使用余额，请直接使用下方扫码支付。</p>
+        <hr>
+        {% endif %}
+        {% if order.balance_used and order.balance_used >= order.customer_price %}
+        <p class="text-success">您已使用余额全额支付，无需扫码。</p>
+        <form method="POST" action="{{ url_for('customer_pay_confirm', order_id=order.id) }}">
+            <input type="hidden" name="balance_used" value="0">
+            <button type="submit" class="btn btn-success">确认完成支付</button>
+        </form>
+        {% else %}
+        {% if order.balance_used and order.balance_used > 0 %}
+        <p class="mb-2">已抵扣 ￥{{ "%.2f"|format(order.balance_used) }}，<strong>还需支付 ￥{{ "%.2f"|format(need_pay) }}</strong></p>
+        {% endif %}
+        <div class="row text-center">
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>微信支付</h5>
+                        <img src="{{ site_image_url('wechat_pay') }}" class="img-fluid" style="max-width: 200px;">
+                        <p class="mt-2">请使用微信扫码支付</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>支付宝</h5>
+                        <img src="{{ site_image_url('alipay_pay') }}" class="img-fluid" style="max-width: 200px;">
+                        <p class="mt-2">请使用支付宝扫码支付</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form method="POST" action="{{ url_for('customer_pay_confirm', order_id=order.id) }}">
+            <input type="hidden" name="balance_used" value="{{ order.balance_used or 0 }}">
+            <button type="submit" class="btn btn-success w-100 mt-3">我已支付</button>
+        </form>
+        <p class="text-muted mt-2">支付成功后请点击按钮，系统将为您确认订单。</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

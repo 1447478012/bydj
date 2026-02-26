@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 style="color: #b34b6b;"><i class="fas fa-receipt"></i> 礼物订单与统计</h2>
+    <a href="{{ url_for('admin_gift_products') }}" class="btn btn-outline-primary"><i class="fas fa-gift"></i> 礼物商品管理</a>
+</div>
+
+<!-- 统计卡片 -->
+<div class="row mb-4 g-3">
+    <div class="col-md-3">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <div class="text-muted small">订单总数</div>
+                <h4 class="mb-0 mt-1" style="color: #b34b6b;">{{ total_count }}</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <div class="text-muted small">待支付</div>
+                <h4 class="mb-0 mt-1 text-warning">{{ pending_count }}</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <div class="text-muted small">已支付</div>
+                <h4 class="mb-0 mt-1 text-success">{{ paid_count }}</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <div class="text-muted small">已支付金额合计</div>
+                <h4 class="mb-0 mt-1 text-primary">￥{{ "%.2f"|format(total_paid_amount) }}</h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-list"></i> 礼物订单列表
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>订单号</th>
+                        <th>顾客</th>
+                        <th>打手</th>
+                        <th>礼物</th>
+                        <th>金额</th>
+                        <th>状态</th>
+                        <th>留言</th>
+                        <th>时间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for o in orders %}
+                    <tr>
+                        <td><strong>{{ o.order_no }}</strong></td>
+                        <td>{{ o.customer.name or o.customer.phone }}</td>
+                        <td>{{ o.player.player_name or o.player.username }}</td>
+                        <td>{{ o.gift_product.name }}</td>
+                        <td>￥{{ "%.2f"|format(o.amount) }}</td>
+                        <td>
+                            {% if o.status == 'paid' %}
+                                <span class="badge bg-success">已支付</span>
+                            {% else %}
+                                <span class="badge bg-secondary">待支付</span>
+                            {% endif %}
+                        </td>
+                        <td class="small text-muted">{{ (o.message or '—')[:20] }}{% if o.message and o.message|length > 20 %}…{% endif %}</td>
+                        <td>{{ o.created_at.strftime('%Y-%m-%d %H:%M') if o.created_at else '—' }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="8" class="text-center text-muted">暂无礼物订单</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<p class="mt-2">
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">返回面板</a>
+</p>
+{% endblock %}

@@ -1,0 +1,56 @@
+/* 男生 · 赛博 - 霓虹机甲感 */
+.navbar { background: rgba(10, 25, 47, 0.95) !important; backdrop-filter: blur(10px); border-bottom: 3px solid #00e5ff; box-shadow: 0 4px 20px rgba(0, 229, 255, 0.4); border-radius: 0 0 30px 30px; padding: 15px 0 25px 0; }
+.navbar-brand { font-size: 2rem; font-weight: 700; color: #00e5ff !important; text-shadow: 0 0 20px rgba(0, 229, 255, 0.8); letter-spacing: 3px; }
+.navbar-brand i { color: #00e5ff; }
+.btn-logout { background: linear-gradient(135deg, #00bcd4, #00e5ff); border: 2px solid #00acc1; color: #0a192f !important; border-radius: 40px; padding: 8px 16px; font-weight: 700; box-shadow: 0 0 20px rgba(0, 229, 255, 0.4); }
+.btn-logout:hover { background: linear-gradient(135deg, #00e5ff, #18ffff); color: #0a192f !important; transform: scale(1.02); box-shadow: 0 0 30px rgba(0, 229, 255, 0.6); }
+.navbar .nav-text { color: #84ffff; font-weight: 600; }
+.card { background: rgba(15, 35, 60, 0.85); backdrop-filter: blur(10px); border: 2px solid #00bcd4; border-radius: 24px; box-shadow: 0 0 30px rgba(0, 184, 212, 0.2); overflow: hidden; }
+.card-header { background: linear-gradient(135deg, #0d2137, #1a3a52); border-bottom: 2px solid #00e5ff; font-size: 1.6rem; font-weight: 700; color: #00e5ff; padding: 20px 30px; }
+.card-header i { color: #18ffff; }
+.card-body { padding: 30px; }
+.table { background: rgba(20, 45, 75, 0.6); border-radius: 16px; overflow: hidden; box-shadow: 0 0 20px rgba(0, 184, 212, 0.15); }
+.table th { background: #006064; color: #84ffff; font-weight: 700; padding: 15px 20px; border-bottom: 2px solid #00bcd4; }
+.table td { padding: 15px 20px; border-bottom: 1px solid #0d2137; background: rgba(25, 55, 90, 0.5); color: #e0f7fa; }
+.table tbody tr:hover td { background: rgba(0, 188, 212, 0.15); }
+.btn-primary { background: #00bcd4; color: #0a192f; font-weight: 700; }
+.btn-primary:hover { background: #00e5ff; color: #0a192f; }
+.form-control, .form-select { border: 2px solid #00bcd4; border-radius: 24px; padding: 12px 20px; background: rgba(10, 25, 47, 0.8); color: #e0f7fa; }
+.form-control:focus, .form-select:focus { border-color: #00e5ff; box-shadow: 0 0 15px rgba(0, 229, 255, 0.3); }
+.form-label { font-weight: 600; color: #84ffff; margin-left: 15px; }
+a { color: #00e5ff; }
+a:hover { color: #18ffff; }
+.bg-success { background: #00e676 !important; color: #0a192f; }
+.bg-warning { background: #ffab00 !important; color: #0a192f; }
+.bg-secondary { background: #546e7a !important; color: #e0f7fa; }
+.badge.bg-info { background: #00bcd4 !important; color: #0a192f; }
+/* 首页 */
+.navbar-light.bg-light { background: linear-gradient(135deg, #0a192f, #112240) !important; border-bottom: 2px solid #00e5ff; }
+.navbar-light .navbar-brand { color: #00e5ff !important; }
+.hero-section { background: linear-gradient(135deg, #0d2137 0%, #1a3a52 50%, #006064 100%); border-color: #00bcd4; box-shadow: 0 0 40px rgba(0, 229, 255, 0.2); }
+.hero-section h1 { color: #00e5ff; text-shadow: 0 0 20px rgba(0, 229, 255, 0.5); }
+.hero-section p { color: #84ffff; }
+.hero-section .btn-hero { background: linear-gradient(135deg, #00bcd4, #00e5ff); color: #0a192f; border: none; font-weight: 700; }
+.hero-section .btn-hero:hover { background: linear-gradient(135deg, #00e5ff, #18ffff); color: #0a192f; }
+.hero-section .btn-hero-news { background: linear-gradient(135deg, #7c4dff, #651fff); color: #fff; }
+.hero-section .btn-hero-news:hover { background: linear-gradient(135deg, #651fff, #6200ea); color: #fff; }
+.home-nav-price { background: linear-gradient(135deg, #00bcd4, #006064) !important; color: #00e5ff !important; border-color: #00e5ff !important; }
+.home-nav-price:hover { background: linear-gradient(135deg, #00e5ff, #00bcd4) !important; color: #0a192f !important; border-color: #18ffff !important; }
+.home-nav-news { background: linear-gradient(135deg, #7c4dff, #651fff) !important; color: #fff !important; border-color: #6200ea !important; }
+.home-nav-news:hover { background: linear-gradient(135deg, #651fff, #6200ea) !important; color: #fff !important; }
+.trust-icon { color: #00e5ff !important; }
+.section-title { color: #00e5ff !important; }
+.section-title i { color: #18ffff; }
+.content-group { background: linear-gradient(180deg, rgba(13,33,55,0.6) 0%, rgba(26,58,82,0.5) 100%); border-color: #00bcd4; }
+.home-card .card-header { background: linear-gradient(135deg, #0d2137, #006064); color: #00e5ff; }
+.member-card-theme-0 { background: linear-gradient(160deg, #0d2137, #1a3a52); border-color: #00bcd4; }
+.member-card-theme-0 .plan-icon, .member-card-theme-0 .plan-name { color: #00e5ff; }
+.member-card-theme-0 .plan-price { color: #84ffff; }
+.member-card-theme-0 .plan-cta { background: #00bcd4; color: #0a192f; font-weight: 700; }
+.login-btn { background: linear-gradient(135deg, #00bcd4, #00e5ff) !important; color: #0a192f !important; border-color: #00acc1 !important; font-weight: 700 !important; }
+.login-btn:hover { background: linear-gradient(135deg, #00e5ff, #18ffff) !important; color: #0a192f !important; }
+.game-category-card:hover { border-color: #00e5ff; box-shadow: 0 0 30px rgba(0, 229, 255, 0.35); }
+.flash-sale-float { background: linear-gradient(145deg, #0d2137, #006064); border-color: #00e5ff; }
+.new-user-float { background: linear-gradient(135deg, #0d2137, #1a3a52); border-color: #00bcd4; }
+.new-user-float .float-title { color: #00e5ff; }
+.red-dot { background-color: #ff1744; box-shadow: 0 0 10px #ff1744; }

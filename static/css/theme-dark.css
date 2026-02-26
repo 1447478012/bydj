@@ -1,0 +1,176 @@
+/* 暗黑主题 - 仅前景样式 */
+.navbar {
+    background: rgba(30, 30, 30, 0.8) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 3px solid #8e44ad;
+    box-shadow: 0 4px 15px rgba(142, 68, 173, 0.4);
+    border-radius: 0 0 30px 30px;
+    padding: 15px 0 25px 0;
+}
+.navbar-brand {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #b07dca !important;
+    text-shadow: 3px 3px 0 #2c2c2c;
+    letter-spacing: 2px;
+}
+.navbar-brand i {
+    color: #8e44ad;
+}
+.btn-logout {
+    background: #8e44ad;
+    border: 2px solid #6c3483;
+    color: white;
+    border-radius: 40px;
+    padding: 8px 16px;
+    font-weight: 600;
+    transition: all 0.2s;
+    box-shadow: 0 4px 8px rgba(142, 68, 173, 0.3);
+}
+.btn-logout:hover {
+    background: #6c3483;
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px rgba(108, 52, 131, 0.5);
+}
+.navbar .nav-text {
+    color: #e0e0e0;
+    font-weight: 600;
+}
+.card {
+    background: rgba(30, 30, 30, 0.7);
+    backdrop-filter: blur(10px);
+    border: 2px solid #8e44ad;
+    border-radius: 40px;
+    box-shadow: 0 15px 30px rgba(142, 68, 173, 0.3);
+    overflow: hidden;
+}
+.card-header {
+    background: #2c2c2c;
+    border-bottom: 2px solid #8e44ad;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #b07dca;
+    padding: 20px 30px;
+}
+.card-header i {
+    color: #8e44ad;
+}
+.card-body {
+    padding: 30px;
+}
+.table {
+    background: rgba(40, 40, 40, 0.6);
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(142, 68, 173, 0.2);
+    border-collapse: separate;
+}
+.table th {
+    background: #8e44ad;
+    color: #fff;
+    font-weight: 700;
+    padding: 15px 20px;
+    border-bottom: 2px solid #6c3483;
+}
+.table td {
+    padding: 15px 20px;
+    border-bottom: 1px solid #2c2c2c;
+    background: rgba(60, 60, 60, 0.4);
+}
+.table tbody tr:hover td {
+    background: #2c2c2c;
+}
+.btn-primary {
+    background: #8e44ad;
+    color: white;
+}
+.btn-primary:hover {
+    background: #6c3483;
+}
+.btn-info {
+    background: #6c3483;
+    color: white;
+}
+.btn-info:hover {
+    background: #5e2a73;
+}
+.form-label {
+    font-weight: 600;
+    color: #e0e0e0;
+    margin-left: 15px;
+}
+.form-control, .form-select {
+    border: 2px solid #8e44ad;
+    border-radius: 40px;
+    padding: 12px 20px;
+    background: rgba(60, 60, 60, 0.8);
+    font-size: 1rem;
+    color: white;
+}
+.form-control:focus, .form-select:focus {
+    border-color: #6c3483;
+    box-shadow: 0 0 0 0.2rem rgba(142, 68, 173, 0.2);
+}
+.badge.bg-info {
+    background: #6c3483 !important;
+    color: white;
+}
+.bg-success {
+    background: #6c3483 !important;
+    color: white;
+}
+.bg-warning {
+    background: #f39c12 !important;
+    color: #2c2c2c;
+}
+.bg-secondary {
+    background: #7f8c8d !important;
+    color: white;
+}
+a {
+    color: #b07dca;
+}
+a:hover {
+    color: #8e44ad;
+}
+.red-dot {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 10px;
+    height: 10px;
+    background-color: #ff4d4f;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px #fff;
+    animation: pulse 1.5s infinite;
+}
+/* 首页 */
+.navbar-light.bg-light { background: linear-gradient(135deg, #2c2c2c, #1a1a1a) !important; border-bottom: 2px solid #8e44ad; }
+.navbar-light .navbar-brand { color: #b07dca !important; }
+.hero-section { background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 50%, #4a2c5a 100%); border-color: #8e44ad; box-shadow: 0 8px 32px rgba(142, 68, 173, 0.3); }
+.hero-section h1 { color: #e8d5f2; }
+.hero-section p { color: #b07dca; }
+.hero-section .btn-hero { background: linear-gradient(135deg, #8e44ad, #6c3483); color: #fff; border: none; }
+.hero-section .btn-hero:hover { background: linear-gradient(135deg, #6c3483, #5b2c6f); color: #fff; }
+.hero-section .btn-hero-news { background: linear-gradient(135deg, #9b59b6, #8e44ad); color: #fff; }
+.hero-section .btn-hero-news:hover { background: linear-gradient(135deg, #8e44ad, #6c3483); color: #fff; }
+.home-nav-price { background: linear-gradient(135deg, #8e44ad, #6c3483) !important; color: #fff !important; border-color: #4a2c5a !important; }
+.home-nav-price:hover { background: linear-gradient(135deg, #6c3483, #5b2c6f) !important; color: #fff !important; }
+.home-nav-news { background: linear-gradient(135deg, #9b59b6, #8e44ad) !important; color: #fff !important; border-color: #6c3483 !important; }
+.home-nav-news:hover { background: linear-gradient(135deg, #8e44ad, #6c3483) !important; color: #fff !important; }
+.trust-icon { color: #b07dca !important; }
+.section-title { color: #b07dca !important; }
+.section-title i { color: #8e44ad; }
+.content-group { background: linear-gradient(180deg, rgba(30,30,30,0.5) 0%, rgba(45,45,45,0.4) 100%); border-color: #8e44ad; }
+.home-card .card-header { background: linear-gradient(135deg, #2c2c2c, #4a2c5a); color: #b07dca; }
+.member-card-theme-0 { background: linear-gradient(160deg, #2c2c2c, #3d2250); border-color: #8e44ad; }
+.member-card-theme-0 .plan-icon, .member-card-theme-0 .plan-name { color: #b07dca; }
+.member-card-theme-0 .plan-price { color: #e8d5f2; }
+.member-card-theme-0 .plan-cta { background: #8e44ad; color: #fff; }
+.login-btn { background: linear-gradient(135deg, #8e44ad, #6c3483) !important; color: #fff !important; border-color: #5b2c6f !important; }
+.login-btn:hover { background: linear-gradient(135deg, #6c3483, #5b2c6f) !important; color: #fff !important; }
+.game-category-card:hover { border-color: #8e44ad; box-shadow: 0 16px 40px rgba(142, 68, 173, 0.4); }
+.flash-sale-float { background: linear-gradient(145deg, #2c2c2c, #4a2c5a); border-color: #8e44ad; }
+.new-user-float { background: linear-gradient(135deg, #1a1a1a, #2c2c2c); border-color: #8e44ad; }
+.new-user-float .float-title { color: #b07dca; }
+.red-dot { box-shadow: 0 0 0 2px #2c2c2c; }

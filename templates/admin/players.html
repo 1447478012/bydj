@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-users"></i> 打手列表
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>用户名</th>
+                        <th>打手姓名</th>
+                        <th>注册时间</th>
+                        <th>状态</th>
+                        <th>总订单数</th>
+                        <th>已完成订单</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player in players %}
+                    <tr>
+                        <td>{{ player.id }}</td>
+                        <td>{{ player.username }}</td>
+                        <td>{{ player.player_name }}</td>
+                        <td>{{ player.registered_at.strftime('%Y-%m-%d %H:%M') if player.registered_at else '未知' }}</td>
+                        <td>
+                            {% if player.is_approved %}
+                                <span class="badge bg-success">已审核</span>
+                            {% else %}
+                                <span class="badge bg-warning">待审核</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ player.orders|length }}</td>
+                        <td>{{ player.orders|selectattr('status', 'equalto', '已完成')|list|length }}</td>
+                        <td>
+                            <a href="{{ url_for('admin_player_orders', player_id=player.id) }}" class="btn btn-sm btn-info">
+                                <i class="fas fa-list"></i> 订单
+                            </a>
+                            {% if not player.is_approved %}
+                                <a href="{{ url_for('approve_user', user_id=player.id, action='approve') }}" class="btn btn-sm btn-success">
+                                    <i class="fas fa-check"></i> 通过
+                                </a>
+                                <a href="{{ url_for('approve_user', user_id=player.id, action='reject') }}" class="btn btn-sm btn-danger" onclick="return confirm('确定拒绝并删除该打手吗？')">
+                                    <i class="fas fa-times"></i> 拒绝
+                                </a>
+                            {% endif %}
+                            <a href="{{ url_for('remove_player', player_id=player.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('确定开除该打手吗？其名下所有订单将被置为未分配。')">
+                                <i class="fas fa-user-slash"></i> 开除
+                            </a>
+                            <a href="{{ url_for('admin_edit_player', player_id=player.id) }}" class="btn btn-sm btn-warning">
+                                <i class="fas fa-edit"></i> 编辑
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

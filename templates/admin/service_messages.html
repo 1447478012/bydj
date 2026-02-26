@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <span><i class="fas fa-inbox"></i> 顾客客服留言</span>
+        <a href="{{ url_for('admin_service_contact') }}" class="btn btn-outline-secondary btn-sm"><i class="fas fa-cog me-1"></i> 联系信息</a>
+    </div>
+    <div class="card-body">
+        {% if messages %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>时间</th>
+                        <th>称呼</th>
+                        <th>联系方式</th>
+                        <th>内容摘要</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for m in messages %}
+                    <tr>
+                        <td class="small">{{ m.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>{{ m.name }}</td>
+                        <td><span class="badge bg-secondary">{{ m.contact_type }}</span> {{ m.contact_value }}</td>
+                        <td><span class="text-muted small text-break">{{ (m.content or '')[:50] }}{% if m.content and m.content|length > 50 %}…{% endif %}</span></td>
+                        <td>
+                            <span class="badge {% if m.status == '未读' %}bg-warning{% elif m.status == '已回复' %}bg-success{% else %}bg-info{% endif %}">{{ m.status }}</span>
+                        </td>
+                        <td>
+                            <a href="{{ url_for('admin_service_message_reply', msg_id=m.id) }}" class="btn btn-sm btn-outline-primary">查看/回复</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-muted mb-0">暂无顾客留言。</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

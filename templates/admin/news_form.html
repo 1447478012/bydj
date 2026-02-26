@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-newspaper"></i> {{ '编辑资讯' if news else '新增资讯' }}
+    </div>
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label class="form-label">标题 *</label>
+                <input type="text" name="title" class="form-control" value="{{ news.title if news else '' }}" required maxlength="200">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">摘要（可选，列表页显示）</label>
+                <textarea name="summary" class="form-control" rows="2" maxlength="500">{{ news.summary if news else '' }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">正文（支持 HTML）</label>
+                <textarea name="content" class="form-control" rows="10">{{ news.content if news else '' }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">关联游戏（可选）</label>
+                <select name="game" class="form-select">
+                    <option value="">不限定</option>
+                    {% for g in games %}
+                    <option value="{{ g[0] }}" {% if news and news.game == g[0] %}selected{% endif %}>{{ g[0] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">封面图（可选）</label>
+                {% if news and news.cover %}
+                <p class="small text-muted">当前封面：<img src="{{ url_for('serve_upload', filename=news.cover) }}" alt="" style="max-width:120px;max-height:80px;object-fit:cover;" class="rounded"></p>
+                {% endif %}
+                <div class="drop-zone">
+                    <span class="drop-zone-hint"><i class="fas fa-cloud-upload-alt"></i> 拖到此处或点击选择</span>
+                    <input type="file" name="cover" accept="image/*">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">排序（数字越大越靠前）</label>
+                <input type="number" name="sort_order" class="form-control" value="{{ news.sort_order if news else 0 }}">
+            </div>
+            <div class="mb-3">
+                <div class="form-check">
+                    <input type="checkbox" name="is_published" value="1" class="form-check-input" id="is_published" {% if not news or news.is_published %}checked{% endif %}>
+                    <label class="form-check-label" for="is_published">发布（未勾选则前台不显示）</label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">保存</button>
+            <a href="{{ url_for('admin_news_list') }}" class="btn btn-secondary">取消</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

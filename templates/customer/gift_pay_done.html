@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header bg-success text-white">
+        <i class="fas fa-heart"></i> 支付成功
+    </div>
+    <div class="card-body text-center">
+        {% if already_paid %}
+        <p class="mb-0">该订单已支付过，礼物已送达打手。</p>
+        {% else %}
+        <p class="mb-2">礼物已送达 <strong>{{ order.player.player_name or order.player.username }}</strong>！</p>
+        <p class="text-muted">对方将收到站内通知。</p>
+        {% endif %}
+        <a href="{{ url_for('customer_gifts_sent') }}" class="btn btn-primary mt-3">查看我送出的礼物</a>
+        <a href="{{ url_for('customer_gift_send') }}" class="btn btn-outline-primary mt-3">再送一份</a>
+    </div>
+</div>
+{% endblock %}

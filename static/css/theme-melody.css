@@ -1,0 +1,57 @@
+/* 女生 · 美乐蒂 - 粉白甜 */
+.navbar { background: rgba(255, 240, 245, 0.95) !important; backdrop-filter: blur(10px); border-bottom: 3px solid #ffb6c1; box-shadow: 0 4px 15px rgba(255, 182, 193, 0.5); border-radius: 0 0 30px 30px; padding: 15px 0 25px 0; }
+.navbar-brand { font-size: 2rem; font-weight: 700; color: #c2185b !important; text-shadow: 2px 2px 0 #ffe4ec; letter-spacing: 2px; }
+.navbar-brand i { color: #f48fb1; }
+.btn-logout { background: linear-gradient(135deg, #f8bbd9, #f48fb1); border: 2px solid #ec407a; color: #fff !important; border-radius: 40px; padding: 8px 16px; font-weight: 600; box-shadow: 0 4px 12px rgba(244, 143, 177, 0.5); }
+.btn-logout:hover { background: linear-gradient(135deg, #f48fb1, #ec407a); transform: scale(1.02); box-shadow: 0 6px 16px rgba(236, 64, 122, 0.5); }
+.navbar .nav-text { color: #ad1457; font-weight: 600; }
+.card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); border: 2px solid #ffc0cb; border-radius: 40px; box-shadow: 0 15px 35px rgba(255, 182, 193, 0.4); overflow: hidden; }
+.card-header { background: linear-gradient(135deg, #fce4ec, #f8bbd9); border-bottom: 2px solid #ffb6c1; font-size: 1.6rem; font-weight: 700; color: #c2185b; padding: 20px 30px; }
+.card-header i { color: #f48fb1; }
+.card-body { padding: 30px; }
+.table { background: rgba(255, 255, 255, 0.7); border-radius: 30px; overflow: hidden; box-shadow: 0 8px 20px rgba(255, 182, 193, 0.3); }
+.table th { background: #f8bbd9; color: #880e4f; font-weight: 700; padding: 15px 20px; border-bottom: 2px solid #f48fb1; }
+.table td { padding: 15px 20px; border-bottom: 1px solid #fce4ec; background: rgba(255, 255, 255, 0.6); }
+.table tbody tr:hover td { background: #fce4ec; }
+.btn-primary { background: #f48fb1; color: #fff; }
+.btn-primary:hover { background: #ec407a; }
+.form-control, .form-select { border: 2px solid #ffb6c1; border-radius: 40px; padding: 12px 20px; background: rgba(255, 255, 255, 0.9); }
+.form-control:focus, .form-select:focus { border-color: #f48fb1; box-shadow: 0 0 0 0.2rem rgba(244, 143, 177, 0.25); }
+.form-label { font-weight: 600; color: #ad1457; margin-left: 15px; }
+a { color: #ec407a; }
+a:hover { color: #c2185b; }
+.bg-success { background: #81c784 !important; color: #fff; }
+.bg-warning { background: #ffb74d !important; color: #5d4037; }
+.bg-secondary { background: #e1bee7 !important; color: #4a148c; }
+.badge.bg-info { background: #f48fb1 !important; color: #fff; }
+/* 首页 */
+.navbar-light.bg-light { background: linear-gradient(135deg, #fce4ec, #f8bbd9) !important; border-bottom: 2px solid #f48fb1; }
+.navbar-light .navbar-brand { color: #c2185b !important; }
+.hero-section { background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 50%, #f48fb1 100%); border-color: #f48fb1; box-shadow: 0 8px 32px rgba(244, 143, 177, 0.4); }
+.hero-section h1 { color: #880e4f; }
+.hero-section p { color: #ad1457; }
+.hero-section .btn-hero { background: linear-gradient(135deg, #f48fb1, #ec407a); color: #fff; border: none; }
+.hero-section .btn-hero:hover { background: linear-gradient(135deg, #ec407a, #c2185b); color: #fff; }
+.hero-section .btn-hero-news { background: linear-gradient(135deg, #e91e63, #ad1457); color: #fff; }
+.hero-section .btn-hero-news:hover { background: linear-gradient(135deg, #c2185b, #880e4f); color: #fff; }
+.home-nav-price { background: linear-gradient(135deg, #f48fb1, #ec407a) !important; color: #fff !important; border-color: #c2185b !important; }
+.home-nav-price:hover { background: linear-gradient(135deg, #ec407a, #c2185b) !important; color: #fff !important; }
+.home-nav-news { background: linear-gradient(135deg, #e91e63, #ad1457) !important; color: #fff !important; border-color: #880e4f !important; }
+.home-nav-news:hover { background: linear-gradient(135deg, #c2185b, #880e4f) !important; color: #fff !important; }
+.trust-icon { color: #ec407a !important; }
+.section-title { color: #c2185b !important; }
+.section-title i { color: #f48fb1; }
+.content-group { background: linear-gradient(180deg, #fff5f8 0%, #fce4ec 100%); border-color: #ffc0cb; }
+.home-card .card-header { background: linear-gradient(135deg, #fce4ec, #f8bbd9); color: #c2185b; }
+.member-card-theme-0 { background: linear-gradient(160deg, #fff0f5, #fce4ec); border-color: #f48fb1; }
+.member-card-theme-0 .plan-icon { color: #f48fb1; }
+.member-card-theme-0 .plan-name { color: #c2185b; }
+.member-card-theme-0 .plan-price { color: #ad1457; }
+.member-card-theme-0 .plan-cta { background: #ec407a; color: #fff; }
+.login-btn { background: linear-gradient(135deg, #f48fb1, #ec407a) !important; color: #fff !important; border-color: #c2185b !important; }
+.login-btn:hover { background: linear-gradient(135deg, #ec407a, #c2185b) !important; color: #fff !important; }
+.game-category-card:hover { border-color: #f48fb1; box-shadow: 0 16px 40px rgba(244, 143, 177, 0.4); }
+.flash-sale-float { background: linear-gradient(145deg, #fce4ec, #f8bbd9); border-color: #f48fb1; }
+.new-user-float { background: linear-gradient(135deg, #fce4ec, #f8bbd9); border-color: #f48fb1; }
+.new-user-float .float-title { color: #c2185b; }
+.red-dot { box-shadow: 0 0 0 2px #fff; }

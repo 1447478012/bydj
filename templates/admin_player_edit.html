@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-user-edit"></i> 编辑打手 - {{ player.player_name or player.username }}
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="mb-3">
+                {{ form.player_name.label(class="form-label") }}
+                {{ form.player_name(class="form-control") }}
+            </div>
+            <div class="mb-3">
+                {{ form.phone.label(class="form-label") }}
+                {{ form.phone(class="form-control") }}
+            </div>
+            <div class="mb-3">
+                {{ form.wechat.label(class="form-label") }}
+                {{ form.wechat(class="form-control") }}
+            </div>
+            <div class="mb-3">
+                {{ form.income_mode.label(class="form-label") }}
+                {{ form.income_mode(class="form-select") }}
+            </div>
+            <div class="mb-3">
+                {{ form.tiered_rates.label(class="form-label") }}
+                {{ form.tiered_rates(class="form-control", rows=4) }}
+            </div>
+            <div class="mb-3 form-check">
+                {{ form.allow_custom_price(class="form-check-input") }}
+                {{ form.allow_custom_price.label(class="form-check-label") }}
+            </div>
+            {{ form.submit(class="btn btn-primary") }}
+            <a href="{{ url_for('admin_players') }}" class="btn btn-secondary">取消</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

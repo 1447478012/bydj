@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <span><i class="fas fa-headset"></i> 陪玩价格</span>
+        <div class="d-flex gap-2">
+            <a href="{{ url_for('customer_index') }}" class="btn btn-sm btn-outline-primary"><i class="fas fa-tasks"></i> 代肝价格</a>
+            {% if session.get('customer_id') %}
+            <a href="{{ url_for('customer_peiwan_order') }}" class="btn btn-sm btn-primary"><i class="fas fa-shopping-cart"></i> 预约陪玩</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card-body">
+        <p class="text-muted mb-3">部分游戏提供陪玩服务，按小时计费。</p>
+        {% if grouped_prices %}
+        <div class="mb-3">
+            <form method="GET" class="d-inline" action="{{ url_for('customer_peiwan_index') }}">
+                <input type="text" name="phone" class="form-control d-inline-block w-auto" placeholder="手机号查会员价" value="{{ phone or '' }}">
+                <button type="submit" class="btn btn-sm btn-outline-secondary">查看</button>
+            </form>
+        </div>
+        {% for game, tasks in grouped_prices.items() %}
+        <div class="mb-4">
+            <h5 class="mb-2" style="color: #1565c0;"><i class="fas fa-gamepad"></i> {{ game }}</h5>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>类型</th>
+                            <th>单价</th>
+                            <th>单位</th>
+                            <th>备注</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for task in tasks %}
+                        <tr>
+                            <td>{{ task.task_type }}</td>
+                            <td>
+                                {% if customer and membership and task.member_price != task.price %}
+                                <span class="text-muted text-decoration-line-through">￥{{ task.price }}</span>
+                                <strong class="text-danger">￥{{ task.member_price }}</strong>
+                                {% else %}
+                                <strong>￥{{ task.price }}</strong>
+                                {% endif %}
+                            </td>
+                            <td>{{ task.unit or '元/小时' }}</td>
+                            <td>{{ task.remark or '' }}</td>
+                            <td>
+                                <a href="{{ url_for('customer_peiwan_order') }}?game={{ game|urlencode }}&task_type={{ task.task_type|urlencode }}" class="btn btn-sm btn-primary">预约</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p class="text-center text-muted">暂无陪玩价格，敬请期待。可先使用 <a href="{{ url_for('customer_index') }}">代肝服务</a>。</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

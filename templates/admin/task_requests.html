@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-inbox"></i> 打手申请新增任务类型
+    </div>
+    <div class="card-body">
+        <p class="text-muted">打手提交的平台暂无的任务类型与报价，通过后按抽成规则生成平台价并加入价格表。</p>
+        {% if requests %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>打手</th>
+                        <th>游戏</th>
+                        <th>任务类型</th>
+                        <th>打手报价</th>
+                        <th>建议平台价</th>
+                        <th>状态</th>
+                        <th>提交时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in requests %}
+                    <tr>
+                        <td>{{ r.player.player_name or r.player.username }}</td>
+                        <td>{{ r.game }}</td>
+                        <td>{{ r.task_type }}</td>
+                        <td>￥{{ "%.2f"|format(r.player_price) }}</td>
+                        <td>￥{{ "%.2f"|format(r.suggested_platform_price) }}</td>
+                        <td>
+                            {% if r.status == '待审核' %}
+                                <span class="badge bg-warning">待审核</span>
+                            {% elif r.status == '已通过' %}
+                                <span class="badge bg-success">已通过</span>
+                            {% else %}
+                                <span class="badge bg-secondary">已驳回</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ r.created_at.strftime('%Y-%m-%d %H:%M') if r.created_at else '' }}</td>
+                        <td>
+                            {% if r.status == '待审核' %}
+                                <form method="POST" action="{{ url_for('admin_task_request_approve', req_id=r.id) }}" style="display:inline;">
+                                    <button type="submit" class="btn btn-sm btn-success">通过</button>
+                                </form>
+                                <form method="POST" action="{{ url_for('admin_task_request_reject', req_id=r.id) }}" style="display:inline;" class="d-inline">
+                                    <input type="text" name="review_note" class="form-control form-control-sm d-inline-block w-auto ms-1" placeholder="驳回原因（选填）">
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary">驳回</button>
+                                </form>
+                            {% else %}
+                                —
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-muted mb-0">暂无申请。</p>
+        {% endif %}
+        <a href="{{ url_for('admin_prices') }}" class="btn btn-secondary mt-3">返回价格表</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container fade-in">
+    <div class="card">
+        <div class="card-header">
+            <i class="fas fa-gem"></i> 确认订单
+        </div>
+        <div class="card-body">
+            <h4>{{ plan.name }}</h4>
+            <p>价格：¥{{ plan.price }}</p>
+            <p>有效期：{{ plan.duration_days }}天</p>
+            <p>权益：{{ plan.description }}</p>
+            <p>折扣：{{ (plan.discount*10) }}折</p>
+            <p class="text-info small mb-2"><i class="fas fa-wallet"></i> 支付成功后，充值金额将计入您的可消费余额，可用于后续代练订单支付时抵扣。</p>
+            <form method="POST" action="{{ url_for('member_create_order') }}">
+                <input type="hidden" name="plan_id" value="{{ plan.id }}">
+                <button type="submit" class="btn btn-primary btn-lg">确认充值</button>
+                <a href="{{ url_for('index') }}" class="btn btn-secondary">取消</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

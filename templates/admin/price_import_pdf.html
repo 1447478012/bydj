@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-file-pdf"></i> 从 PDF 导入价格表
+    </div>
+    <div class="card-body">
+        <p class="text-muted">上传包含价格表的 PDF，系统将自动识别表格中的「游戏、任务类型、价格」并写入价格表。同一游戏+任务类型已存在则更新价格。</p>
+        <form method="POST" enctype="multipart/form-data" action="{{ url_for('admin_price_import_pdf') }}">
+            <div class="mb-3">
+                <label class="form-label">选择 PDF 文件 *</label>
+                <div class="drop-zone">
+                    <span class="drop-zone-hint"><i class="fas fa-cloud-upload-alt"></i> 拖到此处或点击选择</span>
+                    <input type="file" name="pdf" accept=".pdf" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-upload"></i> 上传并导入</button>
+            <a href="{{ url_for('admin_prices') }}" class="btn btn-secondary">返回价格表</a>
+        </form>
+        <hr>
+        <p class="small text-muted mb-0">
+            <strong>说明：</strong>PDF 中需包含表格，且至少有 3 列（游戏名、任务类型、价格）。表头若含「游戏」「价格」「任务」等字样会自动跳过。价格列可为数字或带「元」「￥」的文本。
+        </p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-{% if coupon %}edit{% else %}plus{% endif %}"></i>
+        {% if coupon %}编辑优惠券{% else %}新增优惠券{% endif %}
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            <div class="mb-3">
+                <label class="form-label">优惠券码 *</label>
+                <input type="text" name="code" class="form-control" value="{{ coupon.code if coupon else '' }}" required placeholder="如：NEW100">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">抵扣类型 *</label>
+                <select name="discount_type" class="form-select">
+                    <option value="fixed" {% if coupon and coupon.discount_type == 'fixed' %}selected{% endif %}>固定金额（元）</option>
+                    <option value="percent" {% if coupon and coupon.discount_type == 'percent' %}selected{% endif %}>比例折扣</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">抵扣面额 *</label>
+                <input type="number" step="0.01" name="discount_value" class="form-control" value="{{ coupon.discount_value if coupon else '' }}" required placeholder="固定填金额如5，比例填0.1表示10%">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">最低消费（元）</label>
+                <input type="number" step="0.01" name="min_amount" class="form-control" value="{{ coupon.min_amount or 0 if coupon else 0 }}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">有效期至（留空为永久）</label>
+                <input type="date" name="valid_date" class="form-control" value="{{ coupon.valid_date.strftime('%Y-%m-%d') if coupon and coupon.valid_date else '' }}">
+            </div>
+            <button type="submit" class="btn btn-primary">保存</button>
+            <a href="{{ url_for('admin_coupons') }}" class="btn btn-secondary">取消</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container fade-in">
+    <div class="card">
+        <div class="card-header">
+            <i class="fas fa-hand-holding-usd"></i> 选择你的收益模式
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('choose_income_mode') }}" id="income-form">
+                <!-- 隐藏字段存储选择的模式 -->
+                <input type="hidden" name="income_mode" id="selected-mode" value="percentage">
+
+                <div class="row">
+                    <!-- 固定比例卡片 -->
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 mode-card {% if selected_mode == 'percentage' or not selected_mode %}border-primary shadow{% endif %}" data-mode="percentage" onclick="selectMode('percentage')">
+                            <div class="card-body text-center">
+                                <i class="fas fa-percent fa-3x text-primary mb-3"></i>
+                                <h5 class="card-title">固定比例</h5>
+                                <p class="card-text small text-muted">每单按订单金额的固定百分比获得报酬。</p>
+                                <div id="percentage-fields" class="mode-fields">
+                                    <p class="mb-0 text-primary"><strong>80%</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 阶梯比例卡片 -->
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 mode-card {% if selected_mode == 'tiered' %}border-primary shadow{% endif %}" data-mode="tiered" onclick="selectMode('tiered')">
+                            <div class="card-body text-center">
+                                <i class="fas fa-chart-line fa-3x text-success mb-3"></i>
+                                <h5 class="card-title">阶梯比例</h5>
+                                <p class="card-text small text-muted">当月完成单数越多，拿的比例越高。</p>
+                                <div id="tiered-fields" class="mode-fields" style="display:none;">
+                                    <div class="alert alert-info small p-2">
+                                        <ul class="list-unstyled mb-0">
+                                            <li>&lt;10单：75%</li>
+                                            <li>10-20单：80%</li>
+                                            <li>≥21单：85%</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 固定底价卡片 -->
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 mode-card {% if selected_mode == 'fixed' %}border-primary shadow{% endif %}" data-mode="fixed" onclick="selectMode('fixed')">
+                            <div class="card-body text-center">
+                                <i class="fas fa-tag fa-3x text-warning mb-3"></i>
+                                <h5 class="card-title">固定底价</h5>
+                                <p class="card-text small text-muted">每单按您在「我的报价」中设定的价格表结算，无需在此输入。</p>
+                                <div id="fixed-fields" class="mode-fields" style="display:none;">
+                                    <p class="mb-0 small text-muted">选择后可在个人资料→我的报价中维护各任务价格</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg">保存并开始</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 当前选中的模式
+    let currentMode = 'percentage';
+
+    function selectMode(mode) {
+        // 更新隐藏字段
+        document.getElementById('selected-mode').value = mode;
+        
+        // 移除所有卡片的选中样式
+        document.querySelectorAll('.mode-card').forEach(card => {
+            card.classList.remove('border-primary', 'shadow');
+        });
+        
+        // 为选中卡片添加样式
+        const selectedCard = document.querySelector(`.mode-card[data-mode="${mode}"]`);
+        if (selectedCard) {
+            selectedCard.classList.add('border-primary', 'shadow');
+        }
+        
+        // 隐藏所有模式专属字段
+        document.getElementById('percentage-fields').style.display = 'none';
+        document.getElementById('tiered-fields').style.display = 'none';
+        document.getElementById('fixed-fields').style.display = 'none';
+        
+        // 显示当前模式对应的字段
+        if (mode === 'percentage') {
+            document.getElementById('percentage-fields').style.display = 'block';
+        } else if (mode === 'tiered') {
+            document.getElementById('tiered-fields').style.display = 'block';
+        } else if (mode === 'fixed') {
+            document.getElementById('fixed-fields').style.display = 'block';
+        }
+    }
+
+    // 初始化默认选中固定比例
+    window.onload = function() {
+        selectMode('percentage');
+    };
+</script>
+
+<style>
+    .mode-card {
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .mode-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .mode-fields {
+        margin-top: 15px;
+    }
+    .mode-fields input {
+        margin-top: 5px;
+    }
+</style>
+{% endblock %}

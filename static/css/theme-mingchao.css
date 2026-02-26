@@ -1,0 +1,56 @@
+/* 游戏 · 鸣潮 - 青蓝潮水感 */
+.navbar { background: rgba(20, 45, 65, 0.92) !important; backdrop-filter: blur(10px); border-bottom: 3px solid #26c6da; box-shadow: 0 4px 15px rgba(38, 198, 218, 0.45); border-radius: 0 0 30px 30px; padding: 15px 0 25px 0; }
+.navbar-brand { font-size: 2rem; font-weight: 700; color: #b2ebf2 !important; text-shadow: 2px 2px 0 #0d2137; letter-spacing: 2px; }
+.navbar-brand i { color: #4dd0e1; }
+.btn-logout { background: linear-gradient(135deg, #00838f, #26c6da); border: 2px solid #006064; color: #fff !important; border-radius: 40px; padding: 8px 16px; font-weight: 600; box-shadow: 0 4px 12px rgba(38, 198, 218, 0.45); }
+.btn-logout:hover { background: linear-gradient(135deg, #26c6da, #4dd0e1); transform: scale(1.02); box-shadow: 0 6px 20px rgba(77, 208, 225, 0.5); }
+.navbar .nav-text { color: #80deea; font-weight: 600; }
+.card { background: rgba(25, 55, 75, 0.85); backdrop-filter: blur(10px); border: 2px solid #4dd0e1; border-radius: 40px; box-shadow: 0 15px 35px rgba(0, 131, 143, 0.35); overflow: hidden; }
+.card-header { background: linear-gradient(135deg, #006064, #00838f); border-bottom: 2px solid #26c6da; font-size: 1.6rem; font-weight: 700; color: #b2ebf2; padding: 20px 30px; }
+.card-header i { color: #4dd0e1; }
+.card-body { padding: 30px; }
+.table { background: rgba(30, 60, 85, 0.65); border-radius: 30px; overflow: hidden; box-shadow: 0 8px 20px rgba(0, 131, 143, 0.3); }
+.table th { background: #006064; color: #e0f7fa; font-weight: 700; padding: 15px 20px; border-bottom: 2px solid #26c6da; }
+.table td { padding: 15px 20px; border-bottom: 1px solid #0d2137; background: rgba(40, 70, 95, 0.5); color: #b2ebf2; }
+.table tbody tr:hover td { background: rgba(38, 198, 218, 0.15); }
+.btn-primary { background: linear-gradient(135deg, #26c6da, #00acc1); color: #fff; }
+.btn-primary:hover { background: linear-gradient(135deg, #4dd0e1, #26c6da); }
+.form-control, .form-select { border: 2px solid #4dd0e1; border-radius: 40px; padding: 12px 20px; background: rgba(15, 40, 58, 0.85); color: #e0f7fa; }
+.form-control:focus, .form-select:focus { border-color: #80deea; box-shadow: 0 0 0 0.2rem rgba(38, 198, 218, 0.3); }
+.form-label { font-weight: 600; color: #80deea; margin-left: 15px; }
+a { color: #4dd0e1; }
+a:hover { color: #b2ebf2; }
+.bg-success { background: #00897b !important; color: #fff; }
+.bg-warning { background: #ffb74d !important; color: #1a1a1a; }
+.bg-secondary { background: #006064 !important; color: #b2ebf2; }
+.badge.bg-info { background: #26c6da !important; color: #fff; }
+/* 首页 */
+.navbar-light.bg-light { background: linear-gradient(135deg, #0d2137, #143d52) !important; border-bottom: 2px solid #26c6da; }
+.navbar-light .navbar-brand { color: #b2ebf2 !important; }
+.hero-section { background: linear-gradient(135deg, #0d2137 0%, #006064 50%, #00838f 100%); border-color: #26c6da; box-shadow: 0 8px 32px rgba(38, 198, 218, 0.35); }
+.hero-section h1 { color: #e0f7fa; }
+.hero-section p { color: #80deea; }
+.hero-section .btn-hero { background: linear-gradient(135deg, #26c6da, #00838f); color: #fff; border: none; }
+.hero-section .btn-hero:hover { background: linear-gradient(135deg, #4dd0e1, #26c6da); color: #fff; }
+.hero-section .btn-hero-news { background: linear-gradient(135deg, #00897b, #00695c); color: #fff; }
+.hero-section .btn-hero-news:hover { background: linear-gradient(135deg, #26a69a, #00897b); color: #fff; }
+.home-nav-price { background: linear-gradient(135deg, #26c6da, #006064) !important; color: #fff !important; border-color: #004d52 !important; }
+.home-nav-price:hover { background: linear-gradient(135deg, #4dd0e1, #00838f) !important; color: #fff !important; }
+.home-nav-news { background: linear-gradient(135deg, #00897b, #00695c) !important; color: #fff !important; border-color: #004d40 !important; }
+.home-nav-news:hover { background: linear-gradient(135deg, #26a69a, #00897b) !important; color: #fff !important; }
+.trust-icon { color: #4dd0e1 !important; }
+.section-title { color: #80deea !important; }
+.section-title i { color: #26c6da; }
+.content-group { background: linear-gradient(180deg, rgba(13,33,55,0.5) 0%, rgba(0,96,100,0.35) 100%); border-color: #4dd0e1; }
+.home-card .card-header { background: linear-gradient(135deg, #006064, #00838f); color: #b2ebf2; }
+.member-card-theme-0 { background: linear-gradient(160deg, #0d2137, #006064); border-color: #26c6da; }
+.member-card-theme-0 .plan-icon, .member-card-theme-0 .plan-name { color: #80deea; }
+.member-card-theme-0 .plan-price { color: #b2ebf2; }
+.member-card-theme-0 .plan-cta { background: #26c6da; color: #fff; }
+.login-btn { background: linear-gradient(135deg, #26c6da, #00838f) !important; color: #fff !important; border-color: #006064 !important; }
+.login-btn:hover { background: linear-gradient(135deg, #4dd0e1, #26c6da) !important; color: #fff !important; }
+.game-category-card:hover { border-color: #26c6da; box-shadow: 0 16px 40px rgba(38, 198, 218, 0.4); }
+.flash-sale-float { background: linear-gradient(145deg, #006064, #00838f); border-color: #26c6da; }
+.new-user-float { background: linear-gradient(135deg, #0d2137, #006064); border-color: #26c6da; }
+.new-user-float .float-title { color: #80deea; }
+.red-dot { background-color: #ff5722; box-shadow: 0 0 10px #ff5722; }

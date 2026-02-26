@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-pen"></i> 新建订单
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="fas fa-hashtag"></i> {{ form.order_no.label.text }}</label>
+                            {{ form.order_no(class="form-control", placeholder="例：20250225-001") }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="fas fa-gamepad"></i> {{ form.game.label.text }}</label>
+                            {{ form.game(class="form-select") }}
+                        </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-md-6 mb-3">
+    <label class="form-label"><i class="fas fa-tasks"></i> {{ form.task_type.label.text }}</label>
+    {{ form.task_type(class="form-control", placeholder="例如：深渊满星、周常、特殊任务") }}
+</div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="fas fa-coins"></i> {{ form.customer_price.label.text }}</label>
+                            {{ form.customer_price(class="form-control", placeholder="客户支付金额") }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="fas fa-hand-holding-heart"></i> {{ form.player_price.label.text }}</label>
+                            {{ form.player_price(class="form-control", placeholder="打手应得") }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="fas fa-user"></i> {{ form.player_id.label.text }}</label>
+                            {{ form.player_id(class="form-select") }}
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label"><i class="fas fa-pencil-alt"></i> {{ form.notes.label.text }}</label>
+                        {{ form.notes(class="form-control", rows=3, placeholder="可选备注...") }}
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" class="btn btn-primary px-5 py-2">
+                            <i class="fas fa-save"></i> 保存订单
+                        </button>
+                        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary px-5 py-2">
+                            <i class="fas fa-times"></i> 取消
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

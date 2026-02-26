@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .news-detail .card { border-radius: 24px; overflow: hidden; }
+    .news-detail .card-body { padding: 2rem; }
+    .news-detail .cover-img { border-radius: 16px; }
+    .news-detail .article-title { font-size: 1.5rem; font-weight: 700; color: #0d47a1; margin-bottom: 0.5rem; }
+    .news-detail .article-meta { font-size: 0.9rem; color: #64748b; }
+    .news-detail .content { line-height: 1.75; }
+    .news-detail .content p { margin-bottom: 1rem; }
+    .news-detail .content img { max-width: 100%; height: auto; border-radius: 8px; }
+    .news-detail .back-bar { padding-top: 1.5rem; border-top: 1px solid rgba(144, 202, 249, 0.5); }
+    .news-detail .btn-back { border-radius: 24px; padding: 0.5rem 1.25rem; }
+</style>
+<div class="card news-detail">
+    <div class="card-body">
+        {% if news.cover %}
+        <img src="{{ url_for('serve_upload', filename=news.cover) }}" class="img-fluid cover-img mb-4" alt="{{ news.title }}" style="max-height:360px;width:100%;object-fit:cover;">
+        {% endif %}
+        <h1 class="article-title">{{ news.title }}</h1>
+        <p class="article-meta mb-3">
+            {% if news.game %}<span class="badge bg-primary bg-opacity-25 text-primary me-2">{{ news.game }}</span>{% endif %}
+            <i class="far fa-clock me-1"></i>{{ news.created_at.strftime('%Y年%m月%d日 %H:%M') }}
+        </p>
+        {% if news.summary %}
+        <p class="lead text-muted mb-4">{{ news.summary }}</p>
+        {% endif %}
+        <div class="content">
+            {% if news.content %}
+            {{ news.content | safe }}
+            {% else %}
+            <p class="text-muted">暂无正文。</p>
+            {% endif %}
+        </div>
+        <div class="back-bar">
+            <a href="{{ url_for('game_news_list') }}{% if news.game %}?game={{ news.game | urlencode }}{% endif %}" class="btn btn-outline-primary btn-back">
+                <i class="fas fa-arrow-left me-2"></i>返回资讯列表
+            </a>
+            <a href="{{ url_for('customer_index') }}" class="btn btn-outline-secondary btn-back ms-2">价格表</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

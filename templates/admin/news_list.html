@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 style="color: #b34b6b;"><i class="fas fa-newspaper"></i> 游戏资讯管理</h2>
+    <a href="{{ url_for('admin_news_add') }}" class="btn btn-primary"><i class="fas fa-plus"></i> 新增资讯</a>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>排序</th>
+                        <th>封面</th>
+                        <th>标题</th>
+                        <th>游戏</th>
+                        <th>状态</th>
+                        <th>发布时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for n in news_list %}
+                    <tr>
+                        <td>{{ n.sort_order }}</td>
+                        <td>
+                            {% if n.cover %}
+                            <img src="{{ url_for('serve_upload', filename=n.cover) }}" alt="" style="width:60px;height:40px;object-fit:cover;" class="rounded">
+                            {% else %}
+                            <span class="text-muted">—</span>
+                            {% endif %}
+                        </td>
+                        <td><strong>{{ n.title[:30] }}{% if n.title|length > 30 %}…{% endif %}</strong></td>
+                        <td>{% if n.game %}<span class="badge bg-secondary">{{ n.game }}</span>{% else %}—{% endif %}</td>
+                        <td>
+                            {% if n.is_published %}<span class="badge bg-success">已发布</span>{% else %}<span class="badge bg-warning">未发布</span>{% endif %}
+                        </td>
+                        <td class="small text-muted">{{ n.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>
+                            <a href="{{ url_for('game_news_detail', news_id=n.id) }}" target="_blank" class="btn btn-sm btn-outline-info">预览</a>
+                            <a href="{{ url_for('admin_news_edit', news_id=n.id) }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> 编辑</a>
+                            <form method="post" action="{{ url_for('admin_news_delete', news_id=n.id) }}" class="d-inline" onsubmit="return confirm('确定删除该资讯？');">
+                                <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> 删除</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted">暂无资讯，请点击「新增资讯」</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<p class="mt-2">
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">返回面板</a>
+</p>
+{% endblock %}

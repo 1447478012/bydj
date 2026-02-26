@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex flex-wrap align-items-center gap-2">
+        <span><i class="fas fa-list"></i> 我的订单</span>
+        <form method="get" class="d-flex flex-wrap align-items-center gap-2 ms-auto">
+            <input type="hidden" name="phone" value="{{ customer.phone }}">
+            <select name="status" class="form-select form-select-sm" style="width:auto;" onchange="this.form.submit()">
+                <option value="">全部状态</option>
+                <option value="待确认" {% if status_filter == '待确认' %}selected{% endif %}>待确认</option>
+                <option value="待分配" {% if status_filter == '待分配' %}selected{% endif %}>待分配</option>
+                <option value="进行中" {% if status_filter == '进行中' %}selected{% endif %}>进行中</option>
+                <option value="待验收" {% if status_filter == '待验收' %}selected{% endif %}>待验收</option>
+                <option value="已完成" {% if status_filter == '已完成' %}selected{% endif %}>已完成</option>
+            </select>
+        </form>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>订单号</th>
+                        <th>游戏</th>
+                        <th>任务类型</th>
+                        <th>金额</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td><strong>{{ order.order_no }}</strong></td>
+                        <td>{{ order.game }}</td>
+                        <td>{{ order.task_type }}</td>
+                        <td>￥{{ order.customer_price }}</td>
+                        <td>
+                            <span class="badge {% if order.status == '已完成' %}bg-success{% elif order.status == '待分配' %}bg-info{% elif order.status == '进行中' %}bg-warning{% elif order.status == '待验收' %}bg-primary{% else %}bg-secondary{% endif %}">{{ order.status }}</span>
+                        </td>
+                        <td>
+                            <a href="{{ url_for('customer_order_detail', order_id=order.id) }}" class="btn btn-sm btn-outline-primary">详情</a>
+                            {% if order.status == '已完成' and not order.rating %}
+                                <a href="{{ url_for('customer_rate', order_id=order.id) }}" class="btn btn-sm btn-warning">评价</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% if not orders %}
+        <p class="text-center text-muted">暂无订单</p>
+        {% endif %}
+        {% if pagination and pagination.pages > 1 %}
+        <nav class="mt-3">
+            <ul class="pagination pagination-sm justify-content-center flex-wrap">
+                <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}">
+                    <a class="page-link" href="{{ url_for('customer_orders', phone=customer.phone, status=status_filter, page=pagination.prev_num) if pagination.has_prev else '#' }}">上一页</a>
+                </li>
+                {% for p in pagination.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=1) %}
+                    <li class="page-item {% if p == pagination.page %}active{% endif %}"><a class="page-link" href="{{ url_for('customer_orders', phone=customer.phone, status=status_filter, page=p or 1) }}">{{ p or '…' }}</a></li>
+                {% endfor %}
+                <li class="page-item {% if not pagination.has_next %}disabled{% endif %}">
+                    <a class="page-link" href="{{ url_for('customer_orders', phone=customer.phone, status=status_filter, page=pagination.next_num) if pagination.has_next else '#' }}">下一页</a>
+                </li>
+            </ul>
+        </nav>
+        {% endif %}
+        <a href="{{ url_for('customer_profile') }}?phone={{ customer.phone }}" class="btn btn-secondary mt-3">返回个人中心</a>
+    </div>
+</div>
+{% endblock %}

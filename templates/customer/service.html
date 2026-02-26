@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-headset"></i> 联系客服
+    </div>
+    <div class="card-body">
+        <p class="text-muted">如有订单、价格或合作咨询，可通过下方方式联系客服，或直接留言，我们会尽快回复。</p>
+        {% if session.get('customer_id') %}
+        <p class="mb-2"><a href="{{ url_for('customer_my_messages') }}"><i class="fas fa-comment-dots"></i> 查看我的留言与回复</a></p>
+        {% endif %}
+
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <h5 class="mb-3"><i class="fas fa-address-card text-primary"></i> 联系方式</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2 d-flex align-items-center flex-wrap gap-2">
+                        <span><i class="fab fa-weixin text-success me-2"></i> 微信：<strong>{{ contact.wechat or '1447478012' }}</strong></span>
+                        <button type="button" class="btn btn-sm btn-outline-success copy-btn" data-copy="{{ contact.wechat or '1447478012' }}" data-label="微信号">复制</button>
+                    </li>
+                    <li class="mb-2 d-flex align-items-center flex-wrap gap-2">
+                        <span><i class="fas fa-comment text-info me-2"></i> QQ：<strong>{{ contact.qq or '1447478012' }}</strong></span>
+                        <button type="button" class="btn btn-sm btn-outline-info copy-btn" data-copy="{{ contact.qq or '1447478012' }}" data-label="QQ号">复制</button>
+                        <a href="https://wpa.qq.com/msgrd?v=3&amp;uin={{ contact.qq or '1447478012' }}&amp;site=qq&amp;menu=yes" target="_blank" rel="noopener" class="btn btn-sm btn-primary">打开QQ</a>
+                    </li>
+                    {% if contact.phone %}
+                    <li class="mb-2"><i class="fas fa-phone text-primary me-2"></i> 电话：<strong>{{ contact.phone }}</strong></li>
+                    {% endif %}
+                    {% if contact.work_time %}
+                    <li class="mb-2"><i class="fas fa-clock text-secondary me-2"></i> 服务时间：{{ contact.work_time }}</li>
+                    {% endif %}
+                </ul>
+                {% if contact.extra_note %}
+                <p class="small text-muted mt-2">{{ contact.extra_note }}</p>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <h5 class="mb-3"><i class="fas fa-paper-plane text-primary"></i> 在线留言</h5>
+                <form method="POST" action="{{ url_for('customer_service') }}">
+                    <div class="mb-2">
+                        <label class="form-label">您的称呼 *</label>
+                        <input type="text" name="name" class="form-control" required placeholder="如何称呼您">
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5">
+                            <label class="form-label">联系方式类型</label>
+                            <select name="contact_type" class="form-select">
+                                <option value="微信">微信</option>
+                                <option value="QQ">QQ</option>
+                                <option value="手机">手机</option>
+                            </select>
+                        </div>
+                        <div class="col-7">
+                            <label class="form-label">联系方式 *</label>
+                            <input type="text" name="contact_value" class="form-control" required placeholder="微信号/QQ号/手机号">
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">关联订单号（选填）</label>
+                        <input type="text" name="order_no" class="form-control" placeholder="如有订单问题请填写">
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">留言内容 *</label>
+                        <textarea name="content" class="form-control" rows="4" required placeholder="请简要描述您的问题或需求"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane me-1"></i> 提交留言</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+(function() {
+    document.querySelectorAll('.copy-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var text = this.dataset.copy;
+            var label = this.dataset.label || '内容';
+            if (!text) return;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(function() {
+                    var old = btn.textContent;
+                    btn.textContent = '已复制';
+                    btn.classList.add('btn-success');
+                    btn.classList.remove('btn-outline-success', 'btn-outline-info');
+                    setTimeout(function() { btn.textContent = old; btn.classList.remove('btn-success'); btn.classList.add(btn.dataset.label === '微信号' ? 'btn-outline-success' : 'btn-outline-info'); }, 1500);
+                }).catch(function() { fallbackCopy(text, btn, label); });
+            } else {
+                fallbackCopy(text, btn, label);
+            }
+        });
+    });
+    function fallbackCopy(text, btn, label) {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+            document.execCommand('copy');
+            var old = btn.textContent;
+            btn.textContent = '已复制';
+            setTimeout(function() { btn.textContent = old; }, 1500);
+        } catch (e) {}
+        document.body.removeChild(ta);
+    }
+})();
+</script>
+{% endblock %}

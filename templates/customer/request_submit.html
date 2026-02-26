@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-paper-plane"></i> 没有价格表？提交您的需求与报价
+    </div>
+    <div class="card-body">
+        <p class="text-muted">价格表没有您要的项目，或想自己出价？填写下方信息即可发布，打手接单后您完成支付，支付成功即生成订单。</p>
+        {% if current_customer %}
+        <div class="alert alert-info py-2">您已登录，将以此账号（{{ current_customer.phone }}）发布。</div>
+        {% endif %}
+        <form method="POST" action="{{ url_for('customer_request_submit') }}" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label class="form-label">手机号 *</label>
+                <input type="tel" name="phone" class="form-control" value="{{ current_customer.phone if current_customer else '' }}" {{ 'readonly' if current_customer else '' }} required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">称呼</label>
+                <input type="text" name="name" class="form-control" value="{{ current_customer.name if current_customer else '' }}" placeholder="选填">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">游戏 *</label>
+                <input type="text" name="game" class="form-control" list="game_list" placeholder="如：原神、鸣潮、星铁、永劫无间" required>
+                <datalist id="game_list">
+                    {% for g in games %}
+                    <option value="{{ g }}">
+                    {% endfor %}
+                    {% for g in anime_games %}
+                    <option value="{{ g }}">
+                    {% endfor %}
+                </datalist>
+                {% if anime_games %}
+                <p class="form-text text-muted mt-1 mb-0">
+                    <strong>以下二次元游戏暂无平台价</strong>，由您报价即可：平台抽成 20%，仅推送给擅长该游戏的打手，无需审核；订单完成后将按您的报价加价 20% 录入平台价。
+                    <br><span class="small">{{ anime_games|join('、') }}</span>
+                </p>
+                {% endif %}
+            </div>
+            <div class="mb-3">
+                <label class="form-label">任务类型 *</label>
+                <input type="text" name="task_type" class="form-control" placeholder="如：日常、周本、指定任务" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">您愿意出的价格（元）*</label>
+                <input type="number" name="offered_price" class="form-control" step="0.01" min="0.01" placeholder="请输入金额" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">需求描述 *</label>
+                <textarea name="description" class="form-control" rows="5" required placeholder="详细说明您的需求"></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">截图/附件（可选）</label>
+                <div class="drop-zone">
+                    <span class="drop-zone-hint"><i class="fas fa-cloud-upload-alt"></i> 拖到此处或点击选择</span>
+                    <input type="file" name="screenshot" class="form-control">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">发布需求</button>
+            <a href="{{ url_for('customer_order') }}" class="btn btn-outline-secondary">按价格表下单</a>
+            <a href="{{ url_for('customer_order_custom') }}" class="btn btn-outline-success ms-2"><i class="fas fa-gem"></i> 私人定制（年卡及以上）</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

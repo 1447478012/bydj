@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-user-check"></i> 打手审核
+    </div>
+    <div class="card-body">
+        {% if pending_users %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>用户名</th>
+                        <th>打手姓名</th>
+                        <th>注册时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in pending_users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.player_name }}</td>
+                        <td>{{ user.registered_at.strftime('%Y-%m-%d %H:%M') if user.registered_at else '未知' }}</td>
+                        <td>
+                            <a href="{{ url_for('approve_user', user_id=user.id, action='approve') }}" class="btn btn-success btn-sm">
+                                <i class="fas fa-check"></i> 通过
+                            </a>
+                            <a href="{{ url_for('approve_user', user_id=user.id, action='reject') }}" class="btn btn-danger btn-sm" onclick="return confirm('确定拒绝并删除该用户吗？')">
+                                <i class="fas fa-times"></i> 拒绝
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-center">暂无待审核的打手</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

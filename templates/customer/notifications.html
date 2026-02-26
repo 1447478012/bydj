@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-bell"></i> 我的通知
+    </div>
+    <div class="card-body">
+        {% if notifications %}
+            <div class="list-group">
+                {% for n in notifications %}
+                    <div class="list-group-item list-group-item-action {% if not n.is_read %}list-group-item-info{% endif %}">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">{{ n.content }}</h6>
+                            <small>{{ n.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+                        </div>
+                        {% if n.order %}
+                        <p class="mb-1 text-muted small">订单号：{{ n.order.order_no }}</p>
+                        {% endif %}
+                        {% if not n.is_read %}
+                            <a href="{{ url_for('mark_notification_read', notification_id=n.id) }}" class="btn btn-sm btn-outline-secondary">标记为已读</a>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-center">暂无通知</p>
+        {% endif %}
+        <hr>
+        {% if customer %}
+        <a href="{{ url_for('customer_orders') }}?phone={{ customer.phone }}" class="btn btn-secondary">返回订单列表</a>
+        {% else %}
+        <a href="{{ url_for('customer_query') }}" class="btn btn-secondary">查询订单</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

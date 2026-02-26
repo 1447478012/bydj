@@ -1,0 +1,155 @@
+/* 冰原主题 - 仅前景样式（背景已在 base.html 固定） */
+.navbar {
+    background: rgba(227, 242, 253, 0.8) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 3px solid #90caf9;
+    box-shadow: 0 4px 15px rgba(100, 181, 246, 0.4);
+    border-radius: 0 0 30px 30px;
+    padding: 15px 0 25px 0;
+}
+.navbar-brand {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1565c0 !important;
+    text-shadow: 3px 3px 0 #e3f2fd;
+    letter-spacing: 2px;
+}
+.navbar-brand i {
+    color: #64b5f6;
+}
+.btn-logout {
+    background: #90caf9;
+    border: 2px solid #42a5f5;
+    color: white;
+    border-radius: 40px;
+    padding: 8px 16px;
+    font-weight: 600;
+    transition: all 0.2s;
+    box-shadow: 0 4px 8px rgba(66, 165, 245, 0.3);
+    text-decoration: none;
+    display: inline-block;
+    white-space: nowrap;
+}
+.btn-logout:hover {
+    background: #64b5f6;
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px rgba(33, 150, 243, 0.5);
+}
+.navbar .nav-text {
+    color: #1e5f8e;
+    font-weight: 600;
+}
+.card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 2px solid #90caf9;
+    border-radius: 40px;
+    box-shadow: 0 15px 30px rgba(100, 181, 246, 0.3);
+    overflow: hidden;
+}
+.card-header {
+    background: #e3f2fd;
+    border-bottom: 2px solid #90caf9;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1565c0;
+    padding: 20px 30px;
+}
+.card-header i {
+    color: #64b5f6;
+}
+.card-body {
+    padding: 30px;
+}
+.table {
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(100, 181, 246, 0.2);
+    border-collapse: separate;
+}
+.table th {
+    background: #bbdefb;
+    color: #0d47a1;
+    font-weight: 700;
+    padding: 15px 20px;
+    border-bottom: 2px solid #90caf9;
+}
+.table td {
+    padding: 15px 20px;
+    border-bottom: 1px solid #e3f2fd;
+    background: rgba(255, 255, 255, 0.4);
+}
+.table tbody tr:hover td {
+    background: #e3f2fd;
+}
+.btn-primary {
+    background: #64b5f6;
+    color: white;
+}
+.btn-primary:hover {
+    background: #42a5f5;
+}
+.btn-info {
+    background: #b3e0ff;
+    color: #1a5a7a;
+}
+.btn-info:hover {
+    background: #99d0ff;
+}
+.form-label {
+    font-weight: 600;
+    color: #1e5f8e;
+    margin-left: 15px;
+}
+.form-control, .form-select {
+    border: 2px solid #90caf9;
+    border-radius: 40px;
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+}
+.form-control:focus, .form-select:focus {
+    border-color: #42a5f5;
+    box-shadow: 0 0 0 0.2rem rgba(66, 165, 245, 0.2);
+    outline: none;
+}
+.badge.bg-info {
+    background: #b3e0ff !important;
+    color: #1a5a7a;
+}
+.bg-success {
+    background: #a8e6cf !important;
+    color: #1e4a3a;
+}
+.bg-warning {
+    background: #ffd966 !important;
+    color: #7a5f1a;
+}
+.bg-secondary {
+    background: #b0bec5 !important;
+    color: #2c3e50;
+}
+a {
+    color: #1976d2;
+}
+a:hover {
+    color: #0d47a1;
+}
+.red-dot {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 10px;
+    height: 10px;
+    background-color: #ff4d4f;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px #fff;
+    animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+}
+/* 响应式已在 base.html 中全局处理，可省略，或保留针对性的调整 */

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-file-invoice"></i> 订单详情
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>订单号：</strong> {{ order.order_no }}</p>
+                <p><strong>服务类型：</strong> <span class="badge {{ 'bg-info' if getattr(order, 'service_type', None) == '陪玩' else 'bg-secondary' }}">{{ getattr(order, 'service_type', '代肝') }}</span></p>
+                <p><strong>游戏：</strong> {{ order.game }}</p>
+                <p><strong>任务类型：</strong> {{ order.task_type }}</p>
+                {% if getattr(order, 'duration_hours', None) %}
+                <p><strong>时长：</strong> {{ order.duration_hours }} 小时</p>
+                {% endif %}
+                <p><strong>金额：</strong> ￥{{ order.customer_price }}</p>
+                <p><strong>状态：</strong> 
+                    <span class="badge {% if order.status == '已完成' %}bg-success{% elif order.status == '待分配' %}bg-info{% elif order.status == '进行中' %}bg-warning{% elif order.status == '待验收' %}bg-primary{% else %}bg-secondary{% endif %}">
+                        {{ order.status }}
+                    </span>
+                </p>
+                <p><strong>支付状态：</strong> 
+                    <span class="badge {% if order.payment_status == '已支付' %}bg-success{% else %}bg-warning{% endif %}">
+                        {{ order.payment_status or '未支付' }}
+                    </span>
+                </p>
+                {% if order.player %}
+                <p><strong>打手：</strong> {{ order.player.player_name }}</p>
+                {% endif %}
+                <p><strong>需求描述：</strong> {{ order.notes }}</p>
+                {% if order.screenshot %}
+                <p><strong>截图：</strong> <a href="{{ url_for('static', filename='uploads/'+order.screenshot) }}" target="_blank">查看截图</a></p>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                {% if order.status == '已完成' and not order.rating %}
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            <i class="fas fa-star"></i> 评价打手
+                        </div>
+                        <div class="card-body">
+                            <form method="POST" action="{{ url_for('customer_rate', order_id=order.id) }}">
+                                <div class="mb-3">
+                                    <label class="form-label">评分</label>
+                                    <select name="rating" class="form-select" required>
+                                        <option value="5">5星 - 非常满意</option>
+                                        <option value="4">4星 - 满意</option>
+                                        <option value="3">3星 - 一般</option>
+                                        <option value="2">2星 - 不满意</option>
+                                        <option value="1">1星 - 非常差</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">评价内容</label>
+                                    <textarea name="comment" class="form-control" rows="3"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">提交评价</button>
+                            </form>
+                        </div>
+                    </div>
+                {% elif order.rating %}
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            <i class="fas fa-star"></i> 我的评价
+                        </div>
+                        <div class="card-body">
+                            <p>评分：{{ order.rating }}星</p>
+                            <p>{{ order.comment }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <hr>
+        <a href="{{ url_for('customer_orders') }}?phone={{ order.customer.phone }}" class="btn btn-secondary">返回订单列表</a>
+    </div>
+</div>
+{% endblock %}

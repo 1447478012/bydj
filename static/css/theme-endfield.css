@@ -1,0 +1,56 @@
+/* 游戏 · 终末地 - 明日方舟·终末地 工业橙棕 */
+.navbar { background: rgba(55, 45, 35, 0.92) !important; backdrop-filter: blur(10px); border-bottom: 3px solid #ff8f00; box-shadow: 0 4px 15px rgba(255, 143, 0, 0.4); border-radius: 0 0 30px 30px; padding: 15px 0 25px 0; }
+.navbar-brand { font-size: 2rem; font-weight: 700; color: #ffe0b2 !important; text-shadow: 2px 2px 0 #3e2723; letter-spacing: 2px; }
+.navbar-brand i { color: #ffb74d; }
+.btn-logout { background: linear-gradient(135deg, #e65100, #ff8f00); border: 2px solid #bf360c; color: #fff !important; border-radius: 40px; padding: 8px 16px; font-weight: 600; box-shadow: 0 4px 12px rgba(255, 143, 0, 0.45); }
+.btn-logout:hover { background: linear-gradient(135deg, #ff8f00, #ffb74d); transform: scale(1.02); box-shadow: 0 6px 16px rgba(255, 183, 77, 0.5); }
+.navbar .nav-text { color: #ffcc80; font-weight: 600; }
+.card { background: rgba(65, 50, 40, 0.88); backdrop-filter: blur(10px); border: 2px solid #ffb74d; border-radius: 24px; box-shadow: 0 15px 35px rgba(230, 81, 0, 0.3); overflow: hidden; }
+.card-header { background: linear-gradient(135deg, #4e342e, #5d4037); border-bottom: 2px solid #ff8f00; font-size: 1.6rem; font-weight: 700; color: #ffcc80; padding: 20px 30px; }
+.card-header i { color: #ffb74d; }
+.card-body { padding: 30px; }
+.table { background: rgba(55, 45, 38, 0.7); border-radius: 24px; overflow: hidden; box-shadow: 0 8px 20px rgba(191, 54, 12, 0.25); }
+.table th { background: #bf360c; color: #ffe0b2; font-weight: 700; padding: 15px 20px; border-bottom: 2px solid #ff8f00; }
+.table td { padding: 15px 20px; border-bottom: 1px solid #3e2723; background: rgba(70, 55, 48, 0.5); color: #ffcc80; }
+.table tbody tr:hover td { background: rgba(255, 143, 0, 0.12); }
+.btn-primary { background: linear-gradient(135deg, #e65100, #ff8f00); color: #fff; }
+.btn-primary:hover { background: linear-gradient(135deg, #ff8f00, #ffb74d); }
+.form-control, .form-select { border: 2px solid #ffb74d; border-radius: 24px; padding: 12px 20px; background: rgba(45, 35, 28, 0.88); color: #ffe0b2; }
+.form-control:focus, .form-select:focus { border-color: #ffcc80; box-shadow: 0 0 15px rgba(255, 143, 0, 0.3); }
+.form-label { font-weight: 600; color: #ffcc80; margin-left: 15px; }
+a { color: #ffb74d; }
+a:hover { color: #ffcc80; }
+.bg-success { background: #558b2f !important; color: #fff; }
+.bg-warning { background: #ff8f00 !important; color: #3e2723; }
+.bg-secondary { background: #5d4037 !important; color: #ffcc80; }
+.badge.bg-info { background: #e65100 !important; color: #fff; }
+/* 首页 */
+.navbar-light.bg-light { background: linear-gradient(135deg, #3e2723, #4e342e) !important; border-bottom: 2px solid #ff8f00; }
+.navbar-light .navbar-brand { color: #ffe0b2 !important; }
+.hero-section { background: linear-gradient(135deg, #3e2723 0%, #5d4037 50%, #6d4c41 100%); border-color: #ff8f00; box-shadow: 0 8px 32px rgba(255, 143, 0, 0.25); }
+.hero-section h1 { color: #ffe0b2; }
+.hero-section p { color: #ffcc80; }
+.hero-section .btn-hero { background: linear-gradient(135deg, #e65100, #ff8f00); color: #fff; border: none; }
+.hero-section .btn-hero:hover { background: linear-gradient(135deg, #ff8f00, #ffb74d); color: #fff; }
+.hero-section .btn-hero-news { background: linear-gradient(135deg, #bf360c, #e65100); color: #fff; }
+.hero-section .btn-hero-news:hover { background: linear-gradient(135deg, #e65100, #ff8f00); color: #fff; }
+.home-nav-price { background: linear-gradient(135deg, #e65100, #bf360c) !important; color: #fff !important; border-color: #bf360c !important; }
+.home-nav-price:hover { background: linear-gradient(135deg, #ff8f00, #e65100) !important; color: #fff !important; }
+.home-nav-news { background: linear-gradient(135deg, #ff8f00, #f57c00) !important; color: #fff !important; border-color: #e65100 !important; }
+.home-nav-news:hover { background: linear-gradient(135deg, #ffb74d, #ff8f00) !important; color: #fff !important; }
+.trust-icon { color: #ffb74d !important; }
+.section-title { color: #ffcc80 !important; }
+.section-title i { color: #ff8f00; }
+.content-group { background: linear-gradient(180deg, rgba(62,39,35,0.5) 0%, rgba(93,64,55,0.4) 100%); border-color: #ffb74d; }
+.home-card .card-header { background: linear-gradient(135deg, #4e342e, #6d4c41); color: #ffe0b2; }
+.member-card-theme-0 { background: linear-gradient(160deg, #3e2723, #5d4037); border-color: #ff8f00; }
+.member-card-theme-0 .plan-icon, .member-card-theme-0 .plan-name { color: #ffcc80; }
+.member-card-theme-0 .plan-price { color: #ffe0b2; }
+.member-card-theme-0 .plan-cta { background: linear-gradient(135deg, #e65100, #ff8f00); color: #fff; }
+.login-btn { background: linear-gradient(135deg, #e65100, #ff8f00) !important; color: #fff !important; border-color: #bf360c !important; }
+.login-btn:hover { background: linear-gradient(135deg, #ff8f00, #ffb74d) !important; color: #fff !important; }
+.game-category-card:hover { border-color: #ff8f00; box-shadow: 0 16px 40px rgba(255, 143, 0, 0.35); }
+.flash-sale-float { background: linear-gradient(145deg, #4e342e, #6d4c41); border-color: #ff8f00; }
+.new-user-float { background: linear-gradient(135deg, #3e2723, #4e342e); border-color: #ffb74d; }
+.new-user-float .float-title { color: #ffcc80; }
+.red-dot { background-color: #e65100; box-shadow: 0 0 10px #ff8f00; }

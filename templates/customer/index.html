@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <span><i class="fas fa-tags"></i> 游戏代练价格表</span>
+        <div class="d-flex gap-2 flex-wrap align-items-center">
+            <form method="GET" class="d-flex gap-2 align-items-center" action="{{ url_for('customer_index') }}">
+                <input type="text" name="phone" class="form-control" placeholder="输入手机号查看会员价" value="{{ phone or '' }}" style="width: 160px;">
+                <button type="submit" class="btn btn-sm btn-outline-primary">查看会员价</button>
+            </form>
+            <input type="text" id="searchTask" class="form-control" placeholder="🔍 搜索任务类型..." style="min-width: 200px;">
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="alert alert-info mb-3">
+            <i class="fas fa-gem"></i> 会员可享额外折扣，开通会员更划算！
+        </div>
+        {% if price_table_images %}
+        <div class="mb-4">
+            <h5 class="mb-2"><i class="fas fa-image"></i> 价格表参考图</h5>
+            <div class="row g-2">
+                {% for f in price_table_images %}
+                <div class="col-md-4 col-6">
+                    <a href="{{ url_for('serve_upload', filename='price_table/' + f) }}" target="_blank" class="d-block rounded overflow-hidden border">
+                        <img src="{{ url_for('serve_upload', filename='price_table/' + f) }}" alt="价格表" class="img-fluid" style="max-height:200px;object-fit:contain;width:100%;">
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% if customer and (membership or customer_level) %}
+            <div class="alert alert-info mb-3 py-2">
+                {% if membership %}
+                    <i class="fas fa-gem"></i> 当前套餐：<strong>{{ membership.plan.name }}</strong>，享受 <strong>{{ (membership.plan.discount * 10)|int }} 折</strong>（开通即生效）
+                    {% if membership.end_date %} · 有效期至 {{ membership.end_date.strftime('%Y-%m-%d') }}{% endif %}
+                {% else %}
+                    <i class="fas fa-crown"></i> 当前会员等级：<strong>{{ customer_level }}</strong>
+                    {% if customer.total_spent %} | 累计消费：￥{{ "%.2f"|format(customer.total_spent) }}{% endif %}
+                {% endif %}
+            </div>
+        {% elif phone %}
+            <div class="alert alert-secondary mb-3 py-2">未找到该手机号对应的会员信息，显示原价。</div>
+        {% endif %}
+        {% if grouped_prices %}
+            {% for game, tasks in grouped_prices.items() %}
+            <div class="game-section mb-4" data-game="{{ game }}">
+                <h4 class="mb-3" style="color: #1565c0; border-bottom: 2px solid #90caf9; padding-bottom: 8px;">
+                    <i class="fas fa-gamepad"></i> {{ game }}
+                </h4>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>任务类型</th>
+                                <th>价格</th>
+                                <th>单位</th>
+                                <th>备注</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for task in tasks %}
+                            <tr class="task-row" data-task="{{ task.task_type }}">
+                                <td>{{ task.task_type }}</td>
+                                <td>
+                                    {% if (membership or customer_level) and task.member_price != task.price %}
+                                        <span class="text-muted text-decoration-line-through">￥{{ task.price }}</span>
+                                        <strong class="text-danger">￥{{ task.member_price }}</strong>
+                                        <span class="badge bg-success ms-1">会员价</span>
+                                    {% else %}
+                                        <strong>￥{{ task.price }}</strong>
+                                    {% endif %}
+                                </td>
+                                <td>{{ task.unit or '元/次' }}</td>
+                                <td>{{ task.remark or '' }}</td>
+                                <td>
+                                    <a href="{{ url_for('customer_order') }}?game={{ task.game|urlencode }}&task_type={{ task.task_type|urlencode }}{% if phone %}&phone={{ phone|urlencode }}{% endif %}" 
+                                       class="btn btn-sm btn-primary">
+                                        <i class="fas fa-shopping-cart"></i> 立即下单
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-center">暂无价格数据，请稍后再来或联系客服。</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- 返回顶部按钮 -->
+<button id="backToTop" class="back-to-top" title="返回顶部">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<style>
+    /* 返回顶部按钮样式 */
+    .back-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: rgba(100, 181, 246, 0.9);
+        border: 2px solid #42a5f5;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
+        backdrop-filter: blur(5px);
+        transition: all 0.3s ease;
+        z-index: 1000;
+        display: none; /* 默认隐藏 */
+        align-items: center;
+        justify-content: center;
+    }
+    .back-to-top:hover {
+        background: #64b5f6;
+        transform: scale(1.1);
+        box-shadow: 0 6px 16px rgba(33, 150, 243, 0.6);
+    }
+</style>
+
+<script>
+    // 实时搜索过滤任务类型
+    document.getElementById('searchTask').addEventListener('input', function(e) {
+        const keyword = e.target.value.toLowerCase().trim();
+        const sections = document.querySelectorAll('.game-section');
+        
+        sections.forEach(section => {
+            const rows = section.querySelectorAll('.task-row');
+            let hasVisible = false;
+            
+            rows.forEach(row => {
+                const task = row.dataset.task.toLowerCase();
+                if (keyword === '' || task.includes(keyword)) {
+                    row.style.display = '';
+                    hasVisible = true;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            // 如果该游戏下没有可见行，隐藏整个游戏区块（可选）
+            // section.style.display = hasVisible ? '' : 'none';
+        });
+    });
+
+    // 返回顶部按钮逻辑
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            backToTop.style.display = 'flex';
+        } else {
+            backToTop.style.display = 'none';
+        }
+    });
+    backToTop.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+</script>
+{% endblock %}

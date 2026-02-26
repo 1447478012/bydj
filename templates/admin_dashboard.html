@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 style="color: #b34b6b;"><i class="fas fa-crown"></i> 管理员面板</h2>
+    <div>
+        <a href="{{ url_for('add_order') }}" class="btn btn-primary btn-lg me-2">
+            <i class="fas fa-plus-circle"></i> 新建订单
+        </a>
+        <a href="{{ url_for('admin_approve') }}" class="btn btn-info btn-lg" style="position: relative;">
+            <i class="fas fa-user-check"></i> 打手审核
+            {% if pending_approval_count > 0 %}
+                <span class="red-dot"></span>
+            {% endif %}
+        </a>
+    </div>
+</div>
+
+<!-- 统计卡片 -->
+<div class="row mb-4 g-3">
+    <div class="col-md-4 col-lg-2">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <div class="text-muted small"><i class="fas fa-clipboard-list"></i> 今日订单</div>
+                <h4 class="mb-0 mt-1" style="color: #b34b6b;">{{ today_total }}</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-lg-2">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <div class="text-muted small"><i class="fas fa-check-circle"></i> 今日已完成</div>
+                <h4 class="mb-0 mt-1 text-success">{{ today_completed }}</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-lg-2">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <div class="text-muted small"><i class="fas fa-clock"></i> 待处理订单</div>
+                <h4 class="mb-0 mt-1 text-warning">{{ pending_orders|length }}</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-lg-2">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <div class="text-muted small"><i class="fas fa-yen-sign"></i> 今日收入</div>
+                <h4 class="mb-0 mt-1 text-primary">￥{{ "%.2f"|format(today_revenue) }}</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 col-lg-4">
+        <div class="card h-100">
+            <div class="card-header py-2">
+                <i class="fas fa-trophy"></i> 本月打手完成榜（前5）
+            </div>
+            <div class="card-body py-2">
+                {% if player_ranking %}
+                    <ul class="list-group list-group-flush list-group-numbered">
+                        {% for r in player_ranking %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center py-2 px-0 border-0">
+                            <span>{{ r.player_name or r.username }}</span>
+                            <span class="badge bg-success rounded-pill">{{ r.completed_count }} 单</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="mb-0 text-muted small">暂无数据</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 搜索筛选卡片（保持不变） -->
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-search"></i> 搜索筛选
+    </div>
+    <div class="card-body">
+        <form method="GET" action="{{ url_for('admin_dashboard') }}" class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label">订单号</label>
+                <input type="text" name="order_no" class="form-control" value="{{ request.args.get('order_no', '') }}">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">游戏</label>
+                <select name="game" class="form-select">
+                    <option value="">全部</option>
+                    {% for g in ['原神','鸣潮','星铁','三界洲','终末地','三角洲','永劫无间'] %}
+                        <option value="{{ g }}" {% if request.args.get('game') == g %}selected{% endif %}>{{ g }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">任务类型</label>
+                <input type="text" name="task_type" class="form-control" value="{{ request.args.get('task_type', '') }}" placeholder="输入任务类型">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">打手</label>
+                <select name="player_id" class="form-select">
+                    <option value="">全部</option>
+                    {% for player in players %}
+                        <option value="{{ player.id }}" {% if request.args.get('player_id')|int == player.id %}selected{% endif %}>{{ player.player_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">状态</label>
+                <select name="status" class="form-select">
+                    <option value="">全部</option>
+                    {% for s in ['待分配','进行中','待验收','已完成','已结算'] %}
+                        <option value="{{ s }}" {% if request.args.get('status') == s %}selected{% endif %}>{{ s }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-filter"></i> 筛选</button>
+                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">重置</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 全部订单卡片（保持不变） -->
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-clipboard-list"></i> 全部订单
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>订单号</th>
+                        <th>游戏</th>
+                        <th>任务</th>
+                        <th>客户价</th>
+                        <th>打手底价</th>
+                        <th>打手</th>
+                        <th>状态</th>
+                        <th>截图</th>
+                        <th>备注</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td><strong>{{ order.order_no }}</strong></td>
+                        <td>{{ order.game }}</td>
+                        <td>{{ order.task_type }}</td>
+                        <td>￥{{ order.customer_price }}</td>
+                        <td>￥{{ order.player_price }}</td>
+                        <td>
+                            {% if order.player %}
+                                <span class="badge bg-success">{{ order.player.player_name }}</span>
+                            {% else %}
+                                <span class="badge bg-secondary">未分配</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if order.is_custom_offer %}
+                                <span class="badge bg-info me-1">顾客报价</span>
+                            {% endif %}
+                            {% if order.status == '已完成' %}
+                                <span class="badge bg-success"><i class="fas fa-check-circle"></i> 已完成</span>
+                            {% elif order.status == '进行中' %}
+                                <span class="badge bg-warning"><i class="fas fa-spinner"></i> 进行中</span>
+                            {% elif order.status == '待验收' %}
+                                <span class="badge bg-info"><i class="fas fa-eye"></i> 待验收</span>
+                            {% else %}
+                                <span class="badge bg-secondary"><i class="fas fa-clock"></i> {{ order.status }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if order.screenshot %}
+                                <a href="{{ url_for('static', filename='uploads/'+order.screenshot) }}" target="_blank" class="btn btn-sm btn-info">
+                                    <i class="fas fa-image"></i> 查看
+                                </a>
+                            {% else %}
+                                <span class="text-muted">无</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ order.notes or '—' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-{% if price %}edit{% else %}plus{% endif %}"></i> 
+        {% if price %}编辑价格{% else %}新增价格{% endif %}
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            <div class="mb-3">
+                <label class="form-label">游戏 *</label>
+                <input type="text" name="game" class="form-control" value="{{ price.game if price else '' }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">任务类型 *</label>
+                <input type="text" name="task_type" class="form-control" value="{{ price.task_type if price else '' }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">价格 *</label>
+                <input type="number" step="0.01" name="price" class="form-control" value="{{ price.price if price else '' }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">服务类型</label>
+                <select name="service_type" class="form-select">
+                    <option value="代肝" {% if (price and getattr(price, 'service_type', '代肝') == '代肝') or (not price and (current_service_type|default('代肝')) == '代肝') %}selected{% endif %}>代肝</option>
+                    <option value="陪玩" {% if (price and getattr(price, 'service_type', '') == '陪玩') or (not price and (current_service_type|default('')) == '陪玩') %}selected{% endif %}>陪玩</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">单位</label>
+                <input type="text" name="unit" class="form-control" value="{{ price.unit if price else '元/次' }}" placeholder="代肝常用 元/次，陪玩常用 元/小时">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">备注</label>
+                <textarea name="remark" class="form-control" rows="2">{{ price.remark if price else '' }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">保存</button>
+            <a href="{{ url_for('admin_prices') }}" class="btn btn-secondary">取消</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

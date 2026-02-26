@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-image"></i> 从图片识别并导入价格表
+    </div>
+    <div class="card-body">
+        <p class="text-muted">上传包含价格表的截图或照片，系统将使用 OCR 识别文字并解析「游戏、任务类型、价格」写入价格表。同一游戏+任务类型已存在则更新价格。</p>
+        <form method="POST" enctype="multipart/form-data" action="{{ url_for('admin_price_import_image') }}">
+            <div class="mb-3">
+                <label class="form-label">选择图片 *</label>
+                <div class="drop-zone">
+                    <span class="drop-zone-hint"><i class="fas fa-cloud-upload-alt"></i> 拖到此处或点击选择</span>
+                    <input type="file" name="image" accept="image/*" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-upload"></i> 上传并识别导入</button>
+            <a href="{{ url_for('admin_prices') }}" class="btn btn-secondary">返回价格表</a>
+        </form>
+        <hr>
+        <p class="small text-muted mb-0">
+            <strong>说明：</strong>需安装 <code>pytesseract</code>、<code>Pillow</code>，以及本机 <strong>Tesseract OCR</strong>（含中文语言包 chi_sim）。
+            <br>Windows：安装 <a href="https://github.com/UB-Mannheim/tesseract/wiki" target="_blank">Tesseract</a> 时勾选 Chinese；命令行可用 <code>tesseract --list-langs</code> 确认是否有 chi_sim。
+            <br>图片尽量清晰、文字横向排列，每行格式类似：<code>游戏名 任务类型 价格</code> 或 <code>原神 日常 40元</code>。
+        </p>
+    </div>
+</div>
+{% endblock %}

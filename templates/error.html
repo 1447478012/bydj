@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card text-center">
+    <div class="card-body py-5">
+        <h1 class="display-4 text-muted">{{ code }}</h1>
+        <p class="lead">{{ message }}</p>
+        <a href="{{ url_for('index') }}" class="btn btn-primary">返回首页</a>
+    </div>
+</div>
+{% endblock %}

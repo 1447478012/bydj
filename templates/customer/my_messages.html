@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-comment-dots"></i> 我的客服留言</span>
+        <a href="{{ url_for('customer_service') }}" class="btn btn-sm btn-primary">联系客服</a>
+    </div>
+    <div class="card-body">
+        {% if messages %}
+        <div class="list-group list-group-flush">
+            {% for m in messages %}
+            <div class="list-group-item">
+                <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                    <h6 class="mb-1">{{ m.content[:80] }}{% if m.content|length > 80 %}…{% endif %}</h6>
+                    <small class="text-muted">{{ m.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+                </div>
+                <p class="mb-1 small text-muted">联系方式：{{ m.contact_type }} {{ m.contact_value }}{% if m.order_no %} · 订单 {{ m.order_no }}{% endif %}</p>
+                {% if m.admin_reply %}
+                <div class="alert alert-success py-2 mt-2 mb-0">
+                    <strong>客服回复</strong>（{{ m.replied_at.strftime('%Y-%m-%d %H:%M') if m.replied_at else '' %}）：<br>
+                    {{ m.admin_reply | replace('\n', '<br>') | safe }}
+                </div>
+                {% else %}
+                <p class="small text-muted mb-0 mt-1">暂无回复，请耐心等待。</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-muted mb-0">您暂无客服留言记录。<a href="{{ url_for('customer_service') }}">去留言</a></p>
+        {% endif %}
+        <a href="{{ url_for('customer_profile') }}?phone={{ customer.phone }}" class="btn btn-outline-secondary mt-3">返回个人中心</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header bg-success text-white">
+        <i class="fas fa-qrcode"></i> 扫码支付
+    </div>
+    <div class="card-body">
+        <p class="mb-1">赠送 <strong>{{ order.gift_product.name }}</strong> 给 <strong>{{ order.player.player_name or order.player.username }}</strong></p>
+        <p class="mb-2">应付金额：<strong class="text-danger">￥{{ "%.2f"|format(order.amount) }}</strong></p>
+        <p class="text-muted small">订单号：<code>{{ order.order_no }}</code></p>
+
+        <div class="row text-center mt-3">
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>微信支付</h5>
+                        <img src="{{ site_image_url('wechat_pay') }}" class="img-fluid" style="max-width: 200px;" alt="微信扫码支付">
+                        <p class="mt-2">请使用微信扫码支付</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>支付宝</h5>
+                        <img src="{{ site_image_url('alipay_pay') }}" class="img-fluid" style="max-width: 200px;" alt="支付宝扫码支付">
+                        <p class="mt-2">请使用支付宝扫码支付</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form method="POST" action="{{ url_for('customer_gift_pay_confirm', order_no=order.order_no, token=order.pay_token) }}">
+            <button type="submit" class="btn btn-success w-100 mt-3">我已支付</button>
+        </form>
+        <p class="text-muted mt-2 mb-0">支付成功后请点击按钮，系统将为您确认并送达礼物。</p>
+    </div>
+</div>
+{% endblock %}

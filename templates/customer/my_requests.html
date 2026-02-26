@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-edit"></i> 我的报价意向
+    </div>
+    <div class="card-body">
+        <p class="text-muted">以下为自定义需求与报价意向，打手接单后请完成支付，支付成功后才生成订单。</p>
+        {% if requests %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>意向号</th>
+                        <th>游戏</th>
+                        <th>任务类型</th>
+                        <th>报价</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in requests %}
+                    <tr>
+                        <td>{{ r.request_no }}</td>
+                        <td>{{ r.game }}</td>
+                        <td>{{ r.task_type }}</td>
+                        <td>￥{{ "%.2f"|format(r.offered_price) }}</td>
+                        <td>
+                            <span class="badge {% if r.status == '待接单' %}bg-info{% elif r.status == '已接单' %}bg-warning{% else %}bg-success{% endif %}">{{ r.status }}</span>
+                        </td>
+                        <td>
+                            <a href="{{ url_for('customer_custom_request_detail', request_id=r.id) }}" class="btn btn-sm btn-outline-primary">查看</a>
+                            {% if r.status == '已支付' and r.order_id %}
+                            <a href="{{ url_for('customer_order_detail', order_id=r.order_id) }}" class="btn btn-sm btn-outline-success">订单</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-muted mb-0">暂无报价意向。</p>
+        {% endif %}
+        <hr>
+        <a href="{{ url_for('customer_request_submit') }}" class="btn btn-success">发布新意向</a>
+        <a href="{{ url_for('customer_profile') }}?phone={{ customer.phone }}" class="btn btn-secondary">返回个人中心</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>冰原电竞 · 极光管理</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- 固定背景样式（所有主题共用） -->
+    <style>
+        /* === 固定背景图片及装饰（不随主题变化） === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .bg-slideshow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .bg-slideshow-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: opacity 1.8s ease-in-out;
+        }
+        .bg-slideshow-layer.bg-slideshow-next { opacity: 0; }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+            z-index: -1;
+            animation: breath 8s infinite ease-in-out;
+        }
+        @keyframes breath {
+            0% { background-color: rgba(255, 255, 255, 0.6); }
+            50% { background-color: rgba(255, 255, 255, 0.3); }
+            100% { background-color: rgba(255, 255, 255, 0.6); }
+        }
+        .decor {
+            position: fixed;
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: 0;
+            animation: float 10s infinite ease-in-out;
+        }
+        .decor-1 {
+            top: 10%;
+            left: 5%;
+            width: 80px;
+        }
+        .decor-2 {
+            bottom: 15%;
+            right: 8%;
+            width: 120px;
+            animation-delay: 2s;
+        }
+        .decor-3 {
+            top: 20%;
+            right: 15%;
+            width: 60px;
+            animation-delay: 4s;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        body {
+            font-family: 'Quicksand', sans-serif;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 60px;
+        }
+        /* 换肤按钮样式（可选，可根据主题微调） */
+        .theme-switcher .dropdown-toggle {
+            background: transparent;
+            border: 1px solid currentColor;
+            color: inherit;
+        }
+        .theme-switcher .dropdown-menu {
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(5px);
+        }
+        .theme-switcher .dropdown-item {
+            color: #333;
+        }
+        .theme-switcher .dropdown-item:hover {
+            background: #e9ecef;
+        }
+        /* 响应式布局（可放在各主题中，也可全局） */
+        @media (max-width: 992px) {
+            .navbar .container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .d-flex.ms-auto {
+                margin-top: 10px;
+                width: 100%;
+                justify-content: flex-start;
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+        }
+        /* 手机端：触控友好、留白、底部按钮避让 */
+        @media (max-width: 768px) {
+            .navbar .container { padding-left: 0.75rem; padding-right: 0.75rem; }
+            .navbar-brand { font-size: 1.25rem !important; }
+            .btn-logout, .navbar .btn-logout {
+                min-height: 44px;
+                padding: 10px 14px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.95rem;
+            }
+            .container.fade-in { padding-left: 0.75rem; padding-right: 0.75rem; }
+            body { padding-bottom: 50px; }
+            .nav-text { display: block; width: 100%; margin-bottom: 0.5rem; }
+        }
+        @media (max-width: 576px) {
+            .navbar .container { padding-left: 0.5rem; padding-right: 0.5rem; }
+            .container.fade-in { padding-left: 0.5rem; padding-right: 0.5rem; }
+            .card-body { padding: 1rem; }
+            .card-header { font-size: 1.1rem; padding: 0.9rem 1rem; }
+            input.form-control, select.form-select, textarea.form-control { font-size: 16px !important; }
+        }
+        .navbar .navbar-toggler { color: rgba(255,255,255,0.9); border-color: rgba(255,255,255,0.4); }
+        .navbar .navbar-toggler-icon { filter: brightness(0) invert(1); }
+        /* 打手端 / 通用表格与按钮手机优化 */
+        @media (max-width: 768px) {
+            .table-responsive .table { font-size: 0.9rem; }
+            .table-responsive th, .table-responsive td { padding: 0.5rem 0.4rem; }
+            .card .btn-sm { min-height: 40px; padding: 0.4rem 0.75rem; }
+        }
+        @media (max-width: 576px) {
+            .table-responsive .table { font-size: 0.85rem; }
+            .table-responsive th, .table-responsive td { padding: 0.4rem 0.35rem; }
+            .table-responsive .btn { white-space: nowrap; }
+        }
+        /* 修复下拉菜单被遮挡 */
+.navbar {
+    position: relative;
+    z-index: 1100 !important;             /* 高于页面内固定栏(如 1050)，避免换肤等下拉被挡 */
+}
+.dropdown-menu {
+    z-index: 9998 !important;           /* 提高层级，确保菜单浮在最上层 */
+    max-height: 300px;                   /* 限制最大高度，防止溢出屏幕 */
+    overflow-y: auto;                     /* 如果选项太多，出现滚动条 */
+}
+.navbar .d-flex.ms-auto {
+    overflow: visible !important;         /* 防止父容器裁剪菜单 */
+    flex-wrap: wrap;                       /* 允许按钮换行 */
+    row-gap: 8px;                          /* 换行后的间距 */
+}
+/* 打手端导航：统一按钮样式、紧凑排列 */
+.player-nav-wrap {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.player-nav-wrap .btn-logout {
+    padding: 6px 14px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+.player-nav-row .btn-logout {
+    padding: 6px 14px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+@media (max-width: 768px) {
+    .player-nav-wrap { gap: 6px; }
+    .player-nav-wrap .btn-logout,
+    .player-nav-row .btn-logout { min-height: 44px; padding: 10px 12px; font-size: 0.9rem; }
+}
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+/* 换肤：固定于右侧偏下 */
+.theme-switcher-fixed {
+    position: fixed;
+    right: 20px;
+    bottom: 100px;
+    z-index: 1100;
+}
+.theme-switcher-fixed .dropdown-menu {
+    margin-bottom: 8px;
+}
+/* 通用拖拽上传区域（所有带 .drop-zone 的 file 输入均可拖入或点击） */
+.drop-zone {
+    border: 2px dashed #adb5bd;
+    border-radius: 8px;
+    padding: 12px 16px;
+    text-align: center;
+    background: rgba(0,0,0,0.03);
+    transition: border-color .2s, background .2s;
+    cursor: pointer;
+    position: relative;
+}
+.drop-zone.drag-over { border-color: #0d6efd; background: rgba(13, 110, 253, 0.08); }
+.drop-zone input[type=file] { position: absolute; width: 0; height: 0; opacity: 0; pointer-events: none; }
+.drop-zone-hint { font-size: 0.9rem; color: #6c757d; }
+.drop-zone-hint i { margin-right: 4px; }
+
+        /* === 暖暖温馨星星闪烁 === */
+        .stars-wrap {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            overflow: hidden;
+        }
+        .star-dot {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 215, 120, 0.98);
+            box-shadow: 0 0 16px 6px rgba(255, 220, 150, 0.85), 0 0 6px 2px rgba(255, 235, 200, 0.9);
+            animation: starTwinkle 2.5s ease-in-out infinite;
+        }
+        .star-dot.star-2 { background: rgba(255, 248, 180, 0.98); box-shadow: 0 0 18px 6px rgba(255, 248, 200, 0.8), 0 0 8px 3px rgba(255, 255, 220, 0.9); animation-duration: 2.8s; }
+        .star-dot.star-3 { background: rgba(255, 200, 160, 0.95); box-shadow: 0 0 14px 5px rgba(255, 200, 180, 0.75), 0 0 6px 2px rgba(255, 220, 200, 0.85); animation-duration: 2.2s; }
+        .star-dot.star-4 { width: 7px; height: 7px; background: rgba(255, 235, 200, 0.98); box-shadow: 0 0 12px 4px rgba(255, 240, 200, 0.8); animation-duration: 3s; }
+        .star-dot.star-5 { width: 14px; height: 14px; background: rgba(255, 230, 180, 0.95); box-shadow: 0 0 20px 8px rgba(255, 220, 170, 0.85), 0 0 10px 4px rgba(255, 245, 220, 0.9); animation-duration: 2s; }
+        @keyframes starTwinkle {
+            0%, 100% { opacity: 0.5; transform: scale(0.85); }
+            50% { opacity: 1; transform: scale(1.25); }
+        }
+        @media (max-width: 768px) {
+            .stars-wrap .star-dot:nth-child(n+11) { display: none; }
+        }
+    </style>
+    <!-- 主题 CSS（动态加载，与首页共用 localStorage） -->
+    <link id="theme-style" rel="stylesheet" href="{{ url_for('static', filename='css/theme-kuromi.css') }}">
+</head>
+<body>
+    {% set bg_urls = background_slides if background_slides else [{'url': site_image_url('bg1')}, {'url': site_image_url('bg2')}, {'url': site_image_url('bg3')}] %}
+    <div class="bg-slideshow" id="bgSlideshowWrap">
+        <div class="bg-slideshow-layer" id="bgSlideshowA" style="background-image: url('{{ bg_urls[0].url }}'); opacity: 1;"></div>
+        <div class="bg-slideshow-layer bg-slideshow-next" id="bgSlideshowB"></div>
+    </div>
+    <script type="application/json" id="bgSlideshowUrls">{{ (bg_urls | map(attribute='url') | list) | tojson }}</script>
+    <!-- 漂浮装饰图片（类名与固定样式一致） -->
+    <img src="{{ url_for('static', filename='images/snowflake1.png') }}" class="decor decor-1">
+    <img src="{{ url_for('static', filename='images/ice-crystal.png') }}" class="decor decor-2">
+    <img src="{{ url_for('static', filename='images/snowflake2.png') }}" class="decor decor-3">
+
+    <!-- 暖暖温馨星星闪烁 -->
+    <div class="stars-wrap" aria-hidden="true">
+        <span class="star-dot" style="top:8%;left:12%;animation-delay:0s"></span>
+        <span class="star-dot star-2" style="top:15%;left:88%;animation-delay:0.4s"></span>
+        <span class="star-dot star-3" style="top:22%;left:25%;animation-delay:0.8s"></span>
+        <span class="star-dot star-4" style="top:35%;left:75%;animation-delay:0.2s"></span>
+        <span class="star-dot star-5" style="top:45%;left:8%;animation-delay:1s"></span>
+        <span class="star-dot" style="top:55%;left:92%;animation-delay:0.6s"></span>
+        <span class="star-dot star-2" style="top:62%;left:18%;animation-delay:0.3s"></span>
+        <span class="star-dot star-3" style="top:72%;left:60%;animation-delay:0.9s"></span>
+        <span class="star-dot star-4" style="top:85%;left:35%;animation-delay:0.5s"></span>
+        <span class="star-dot" style="top:12%;left:55%;animation-delay:0.7s"></span>
+        <span class="star-dot star-5" style="top:40%;left:42%;animation-delay:0.1s"></span>
+        <span class="star-dot star-2" style="top:78%;left:82%;animation-delay:0.55s"></span>
+        <span class="star-dot star-4" style="top:5%;left:72%;animation-delay:1.2s"></span>
+        <span class="star-dot star-3" style="top:50%;left:50%;animation-delay:0.35s"></span>
+        <span class="star-dot" style="top:28%;left:5%;animation-delay:0.85s"></span>
+    </div>
+
+    {% if current_announcement and current_announcement.title %}
+    <div class="announcement-bar alert alert-info alert-dismissible fade show mb-0 rounded-0 border-0" role="alert" id="announcementBar" style="border-radius: 0;">
+        <div class="container d-flex align-items-center flex-wrap gap-2">
+            <strong><i class="fas fa-bullhorn me-1"></i></strong>
+            {% if current_announcement.link_url %}
+            <a href="{{ current_announcement.link_url }}" target="_blank" rel="noopener" class="alert-link">{{ current_announcement.title }}</a>
+            {% else %}
+            <span>{{ current_announcement.title }}</span>
+            {% endif %}
+            {% if current_announcement.content %}<span class="d-none d-md-inline"> — {{ current_announcement.content[:80] }}{% if current_announcement.content|length > 80 %}…{% endif %}</span>{% endif %}
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="关闭" id="announcementClose"></button>
+        </div>
+    </div>
+    <script>(function(){ var k='announcement_{{ current_announcement.id }}'; if(localStorage.getItem(k)) document.getElementById('announcementBar')&&document.getElementById('announcementBar').remove(); document.getElementById('announcementClose')&&document.getElementById('announcementClose').addEventListener('click',function(){ localStorage.setItem(k,'1'); }); })();</script>
+    {% endif %}
+
+    <nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a href="{{ url_for('index') }}" class="navbar-brand">
+            <i class="fas fa-snowflake"></i> 冰原电竞 · 极光管理
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#baseNav" aria-controls="baseNav" aria-expanded="false" aria-label="菜单">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="baseNav">
+        <a href="{{ url_for('customer_index') }}" class="btn-logout me-2">价格表</a>
+        <a href="{{ url_for('game_news_list') }}" class="btn-logout me-2">游戏资讯</a>
+        <a href="{{ url_for('customer_service') }}" class="btn-logout me-2"><i class="fas fa-headset"></i> 联系客服</a>
+        <a href="{{ url_for('faq_list') }}" class="btn-logout me-2"><i class="fas fa-question-circle"></i> 常见问题</a>
+        {% if session.get('customer_id') %}
+            <span class="nav-text me-2">{{ session.get('customer_phone') }}</span>
+            <a href="{{ url_for('hot_players') }}" class="btn-logout me-2"><i class="fas fa-fire"></i> 热门打手</a>
+            <a href="{{ url_for('customer_peiwan_index') }}" class="btn-logout me-2"><i class="fas fa-headset"></i> 陪玩</a>
+            <a href="{{ url_for('customer_order') }}" class="btn-logout me-2"><i class="fas fa-plus-circle"></i> 创建订单</a>
+            <a href="{{ url_for('customer_profile') }}?phone={{ session.get('customer_phone') }}" class="btn-logout me-2"><i class="fas fa-user-circle"></i> 个人中心</a>
+            <a href="{{ url_for('customer_logout') }}" class="btn-logout">退出</a>
+        {% endif %}
+        {% if current_user.is_authenticated %}
+            <div class="d-flex align-items-center ms-auto flex-wrap gap-2 {% if current_user.role == 'player' %}player-nav-row{% endif %}" style="overflow: visible !important;">
+                {% if current_user.role == 'admin' %}
+                    <a href="{{ url_for('admin_players') }}" class="btn-logout">打手列表</a>
+                <a href="{{ url_for('admin_prices') }}" class="btn-logout">价格表</a>
+                <a href="{{ url_for('admin_task_requests') }}" class="btn-logout">任务申请</a>
+                <a href="{{ url_for('admin_news_list') }}" class="btn-logout">游戏资讯</a>
+                <a href="{{ url_for('admin_site_images') }}" class="btn-logout">站点图片</a>
+                <a href="{{ url_for('admin_coupons') }}" class="btn-logout">优惠券</a>
+                <a href="{{ url_for('admin_gift_products') }}" class="btn-logout">礼物管理</a>
+                <a href="{{ url_for('admin_feedback') }}" class="btn-logout">意见反馈</a>
+                <a href="{{ url_for('admin_service_messages') }}" class="btn-logout"><i class="fas fa-headset"></i> 客服</a>
+                <a href="{{ url_for('admin_announcements') }}" class="btn-logout"><i class="fas fa-bullhorn"></i> 公告</a>
+                <a href="{{ url_for('admin_faq_list') }}" class="btn-logout"><i class="fas fa-question-circle"></i> FAQ</a>
+                <a href="{{ url_for('admin_logs') }}" class="btn-logout">操作日志</a>
+                {% elif current_user.role == 'player' %}
+                    <div class="player-nav-wrap">
+                    <a href="{{ url_for('player_notifications') }}" class="btn-logout position-relative">
+                        <i class="fas fa-bell"></i> 通知
+                        {% if player_unread_count and player_unread_count > 0 %}
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{ player_unread_count }}</span>
+                        {% endif %}
+                    </a>
+                    <a href="{{ url_for('player_income') }}" class="btn-logout"><i class="fas fa-chart-line"></i> 收入</a>
+                    <a href="{{ url_for('player_gifts') }}" class="btn-logout"><i class="fas fa-gift"></i> 收到的礼物</a>
+                    <a href="{{ url_for('player_pending_orders') }}" class="btn-logout"><i class="fas fa-inbox"></i> 可接订单</a>
+                    <a href="{{ url_for('player_my_prices') }}" class="btn-logout"><i class="fas fa-coins"></i> 我的报价</a>
+                    <a href="{{ url_for('player_task_new') }}" class="btn-logout"><i class="fas fa-plus-circle"></i> 新增任务</a>
+                    <a href="{{ url_for('player_feedback') }}" class="btn-logout"><i class="fas fa-comment"></i> 意见反馈</a>
+                    </div>
+                {% endif %}
+                <a href="{{ url_for('rules') }}" class="btn-logout">打手须知</a>
+                {% if current_user.is_authenticated and current_user.role == 'player' %}
+                    <a href="{{ url_for('player_profile') }}" class="btn-logout">
+                        <i class="fas fa-user"></i> 个人资料
+                    </a>
+                {% endif %}
+                <a href="{{ url_for('logout') }}" class="btn-logout">退出</a>
+            </div>
+        {% endif %}
+        </div>
+    </div>
+</nav>
+
+    <!-- 换肤：固定于右侧偏下 -->
+    <div class="theme-switcher-fixed dropdown dropup">
+        <button class="btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background: rgba(255,255,255,0.3); border: 1px solid currentColor; border-radius: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.15);">
+            <i class="fas fa-palette me-1"></i> 换肤
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end theme-switcher-menu" style="z-index: 9999; max-height: 320px; overflow-y: auto; min-width: 200px;">
+            <li><h6 class="dropdown-header text-muted">女生专区</h6></li>
+            <li><a class="dropdown-item" href="#" data-theme="kuromi">🖤 库洛米</a></li>
+            <li><a class="dropdown-item" href="#" data-theme="melody">🌸 美乐蒂</a></li>
+            <li><a class="dropdown-item" href="#" data-theme="cinnamon">☁️ 玉桂狗</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><h6 class="dropdown-header text-muted">男生专区</h6></li>
+            <li><a class="dropdown-item" href="#" data-theme="cyber">⚡ 赛博</a></li>
+            <li><a class="dropdown-item" href="#" data-theme="dark">🌙 暗夜</a></li>
+            <li><a class="dropdown-item" href="#" data-theme="blade">⚔️ 锋芒</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><h6 class="dropdown-header text-muted">游戏主题</h6></li>
+            <li><a class="dropdown-item" href="#" data-theme="genshin">⚔️ 原神</a></li>
+            <li><a class="dropdown-item" href="#" data-theme="starrail">🚂 星铁</a></li>
+            <li><a class="dropdown-item" href="#" data-theme="mingchao">🌊 鸣潮</a></li>
+            <li><a class="dropdown-item" href="#" data-theme="endfield">🌙 终末地</a></li>
+            <li><a class="dropdown-item" href="#" data-theme="delta">🎖️ 三角洲</a></li>
+            <li><a class="dropdown-item" href="#" data-theme="yongjie">⚔️ 永劫无间</a></li>
+        </ul>
+    </div>
+
+    <div class="container fade-in">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-info alert-dismissible fade show" role="alert" style="background: #e3f2fd; border: 2px solid #90caf9; border-radius: 40px; color: #1565c0;">
+                        <i class="fas fa-snowflake"></i> {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <div style="position: fixed; bottom: 10px; right: 20px; opacity: 0.3; font-size: 1.5rem;" class="d-none d-md-block">
+        <span class="sparkle">❄️</span> 冰原 · 纯净如你 <span class="sparkle">❄️</span>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 背景轮播：淡入淡出，每 8 秒切换
+        (function() {
+            var wrap = document.getElementById('bgSlideshowWrap');
+            var layerA = document.getElementById('bgSlideshowA');
+            var layerB = document.getElementById('bgSlideshowB');
+            var dataEl = document.getElementById('bgSlideshowUrls');
+            if (!wrap || !layerA || !layerB || !dataEl) return;
+            var urls;
+            try { urls = JSON.parse(dataEl.textContent.trim()); } catch (e) { return; }
+            if (!urls || urls.length < 2) return;
+            var idx = 0;
+            var duration = 8000;
+            var showNext = function() {
+                idx = (idx + 1) % urls.length;
+                var url = urls[idx].replace(/"/g, '\\"');
+                layerB.style.backgroundImage = 'url("' + url + '")';
+                layerA.style.opacity = 0;
+                layerB.style.opacity = 1;
+            };
+            var showNextB = function() {
+                idx = (idx + 1) % urls.length;
+                var url = urls[idx].replace(/"/g, '\\"');
+                layerA.style.backgroundImage = 'url("' + url + '")';
+                layerB.style.opacity = 0;
+                layerA.style.opacity = 1;
+            };
+            var useA = true;
+            setInterval(function() {
+                if (useA) { showNext(); useA = false; } else { showNextB(); useA = true; }
+            }, duration);
+        })();
+        // 主题切换（首页与顾客端共用 localStorage.theme）
+        (function() {
+            const themeLink = document.getElementById('theme-style');
+            const saved = localStorage.getItem('theme');
+            const validThemes = ['kuromi','melody','cinnamon','cyber','dark','blade','ice','genshin','starrail','mingchao','endfield','delta','yongjie'];
+            const currentTheme = (saved && validThemes.indexOf(saved) >= 0) ? saved : 'kuromi';
+            if (!saved) localStorage.setItem('theme', currentTheme);
+            themeLink.href = '/static/css/theme-' + currentTheme + '.css';
+
+            document.querySelectorAll('.dropdown-item[data-theme]').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const theme = this.dataset.theme;
+                    themeLink.href = '/static/css/theme-' + theme + '.css';
+                    localStorage.setItem('theme', theme);
+                });
+            });
+        })();
+        // 通用拖拽上传：所有 .drop-zone 内 input[type=file] 支持拖入与点击
+        (function() {
+            function initDropZones() {
+                document.querySelectorAll('.drop-zone').forEach(function(zone) {
+                    if (zone.dataset.inited) return;
+                    var input = zone.querySelector('input[type=file]');
+                    if (!input) return;
+                    zone.dataset.inited = '1';
+                    zone.addEventListener('dragover', function(e) { e.preventDefault(); e.stopPropagation(); zone.classList.add('drag-over'); });
+                    zone.addEventListener('dragleave', function(e) { e.preventDefault(); e.stopPropagation(); zone.classList.remove('drag-over'); });
+                    zone.addEventListener('drop', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        zone.classList.remove('drag-over');
+                        var files = e.dataTransfer && e.dataTransfer.files;
+                        if (!files || !files.length) return;
+                        var accept = (input.getAttribute('accept') || '').toLowerCase();
+                        var list = [];
+                        for (var i = 0; i < files.length; i++) {
+                            var f = files[i];
+                            if (!accept || accept === '*' || accept === 'image/*') { list.push(f); continue; }
+                            if (f.type && f.type.indexOf('image/') === 0) list.push(f);
+                            else if ((accept.indexOf('.pdf') !== -1 || accept.indexOf('pdf') !== -1) && f.type === 'application/pdf') list.push(f);
+                            else if (accept.indexOf(f.type) !== -1) list.push(f);
+                        }
+                        if (accept === 'image/*' && !list.length) { for (var k = 0; k < files.length; k++) { if (files[k].type && files[k].type.indexOf('image/') === 0) list.push(files[k]); } }
+                        if (accept.indexOf('pdf') !== -1 && !list.length) { for (var k = 0; k < files.length; k++) { if (files[k].type === 'application/pdf') list.push(files[k]); } }
+                        if (!list.length) return;
+                        var dt = new DataTransfer();
+                        for (var j = 0; j < list.length; j++) dt.items.add(list[j]);
+                        input.files = dt.files;
+                        input.dispatchEvent(new Event('change', { bubbles: true }));
+                    });
+                    zone.addEventListener('click', function(e) { if (e.target === zone || e.target.closest('.drop-zone-hint')) input.click(); });
+                });
+            }
+            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initDropZones);
+            else initDropZones();
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-credit-card"></i> 意向支付（支付成功后生成订单）
+    </div>
+    <div class="card-body">
+        <p>意向号：<strong>{{ req.request_no }}</strong></p>
+        <p>游戏 / 任务：<strong>{{ req.game }} · {{ req.task_type }}</strong></p>
+        <p>应付金额：<strong>￥{{ "%.2f"|format(req.offered_price) }}</strong></p>
+
+        <div class="row text-center">
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>微信支付</h5>
+                        <img src="{{ site_image_url('wechat_pay') }}" class="img-fluid" style="max-width: 200px;">
+                        <p class="mt-2">请使用微信扫码支付</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>支付宝</h5>
+                        <img src="{{ site_image_url('alipay_pay') }}" class="img-fluid" style="max-width: 200px;">
+                        <p class="mt-2">请使用支付宝扫码支付</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form method="POST" action="{{ url_for('customer_custom_pay_confirm', request_id=req.id) }}">
+            <button type="submit" class="btn btn-success w-100 mt-3">我已支付</button>
+        </form>
+        <p class="text-muted mt-2">支付成功后点击按钮，系统将生成订单并通知打手开始处理。</p>
+    </div>
+</div>
+{% endblock %}

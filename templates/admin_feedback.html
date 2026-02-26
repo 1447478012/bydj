@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-list"></i> 打手反馈列表
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>打手</th>
+                        <th>标题</th>
+                        <th>内容</th>
+                        <th>状态</th>
+                        <th>提交时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for fb in feedbacks %}
+                    <tr>
+                        <td>{{ fb.id }}</td>
+                        <td>{{ fb.player.player_name }}</td>
+                        <td>{{ fb.title }}</td>
+                        <td>{{ fb.content[:50] }}{% if fb.content|length > 50 %}...{% endif %}</td>
+                        <td>
+                            {% if fb.status == '未读' %}
+                                <span class="badge bg-warning">未读</span>
+                            {% else %}
+                                <span class="badge bg-success">已读</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ fb.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>
+                            <a href="{{ url_for('view_feedback', feedback_id=fb.id) }}" class="btn btn-sm btn-info">查看</a>
+                            {% if fb.status == '未读' %}
+                                <a href="{{ url_for('mark_feedback_read', feedback_id=fb.id) }}" class="btn btn-sm btn-success">标记已读</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

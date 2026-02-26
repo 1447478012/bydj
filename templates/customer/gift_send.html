@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-gift"></i> 给打手赠送礼物
+    </div>
+    <div class="card-body">
+        <p class="text-muted">选择打手与虚拟礼物，支付后礼物将送达打手并产生通知。</p>
+        <form method="POST" action="{{ url_for('customer_gift_send') }}">
+            <div class="mb-4">
+                <label class="form-label fw-bold">选择打手 <span class="text-danger">*</span></label>
+                <select name="player_id" class="form-select form-select-lg" required>
+                    <option value="">请选择打手</option>
+                    {% for p in players %}
+                    <option value="{{ p.id }}">{{ p.player_name or p.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-4">
+                <label class="form-label fw-bold">选择礼物 <span class="text-danger">*</span></label>
+                <div class="row g-3">
+                    {% for prod in products %}
+                    <div class="col-6 col-md-4">
+                        <label class="d-block border rounded p-3 text-center cursor-pointer gift-option" style="cursor: pointer;">
+                            <input type="radio" name="gift_product_id" value="{{ prod.id }}" class="form-check-input" required>
+                            <i class="fas {{ prod.icon }} fa-2x text-primary d-block my-2"></i>
+                            <span class="fw-bold">{{ prod.name }}</span>
+                            <span class="text-danger d-block">￥{{ "%.2f"|format(prod.price) }}</span>
+                            {% if prod.description %}<small class="text-muted">{{ prod.description }}</small>{% endif %}
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="mb-4">
+                <label class="form-label">留言（选填）</label>
+                <textarea name="message" class="form-control" rows="2" placeholder="写一句感谢或祝福～" maxlength="500"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg"><i class="fas fa-credit-card"></i> 去支付</button>
+            <a href="{{ url_for('customer_profile') }}?phone={{ customer.phone }}" class="btn btn-secondary">返回</a>
+        </form>
+    </div>
+</div>
+<style>
+.gift-option:hover { background: #f8f9fa; }
+.gift-option input { margin-top: 0; }
+</style>
+{% endblock %}

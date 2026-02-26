@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-edit"></i> 编辑打手：{{ player.username }}
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="mb-3">
+                {{ form.player_name.label(class="form-label") }}
+                {{ form.player_name(class="form-control") }}
+            </div>
+            <div class="mb-3">
+                {{ form.phone.label(class="form-label") }}
+                {{ form.phone(class="form-control") }}
+            </div>
+            <div class="mb-3">
+                {{ form.wechat.label(class="form-label") }}
+                {{ form.wechat(class="form-control") }}
+            </div>
+            <div class="mb-3">
+                {{ form.income_mode.label(class="form-label") }}
+                {{ form.income_mode(class="form-select", onchange="toggleFields()") }}
+            </div>
+            <div class="mb-3" id="tiered-fields" style="display:none;">
+                {{ form.tiered_rates.label(class="form-label") }}
+                {{ form.tiered_rates(class="form-control", rows=5) }}
+                <small class="text-muted">请输入JSON数组，例如：[{"min":0,"max":100,"player_rate":0.7}]</small>
+            </div>
+            <div class="mb-3" id="custom-fields" style="display:none;">
+                <div class="form-check">
+                    {{ form.allow_custom_price(class="form-check-input") }}
+                    {{ form.allow_custom_price.label(class="form-check-label") }}
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="form-check">
+                    {{ form.is_certified(class="form-check-input") }}
+                    {{ form.is_certified.label(class="form-check-label") }}
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">保存</button>
+            <a href="{{ url_for('admin_players') }}" class="btn btn-secondary">返回</a>
+        </form>
+    </div>
+</div>
+<script>
+function toggleFields() {
+    var mode = document.getElementById('income_mode').value;
+    document.getElementById('tiered-fields').style.display = (mode === 'tiered') ? 'block' : 'none';
+    document.getElementById('custom-fields').style.display = (mode === 'custom') ? 'block' : 'none';
+}
+window.onload = toggleFields;
+</script>
+{% endblock %}

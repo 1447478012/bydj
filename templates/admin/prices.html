@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 style="color: #b34b6b;"><i class="fas fa-tags"></i> 价格表管理</h2>
+    <div>
+        <a href="{{ url_for('admin_price_add', service_type=service_type|default('代肝')) }}" class="btn btn-primary me-2">
+            <i class="fas fa-plus"></i> 新增{{ '陪玩' if service_type == '陪玩' else '代肝' }}价格
+        </a>
+        <a href="{{ url_for('admin_price_import_pdf') }}" class="btn btn-success me-2">
+            <i class="fas fa-file-pdf"></i> 从 PDF 导入
+        </a>
+        <a href="{{ url_for('admin_price_import_image') }}" class="btn btn-info me-2">
+            <i class="fas fa-image"></i> 从图片识别导入
+        </a>
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">返回面板</a>
+    </div>
+</div>
+<ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+        <a class="nav-link {{ 'active' if (service_type|default('代肝')) != '陪玩' else '' }}" href="{{ url_for('admin_prices', service_type='代肝') }}">代肝价格</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {{ 'active' if service_type == '陪玩' else '' }}" href="{{ url_for('admin_prices', service_type='陪玩') }}">陪玩价格</a>
+    </li>
+</ul>
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-list"></i> 价格列表
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>服务</th>
+                        <th>游戏</th>
+                        <th>任务类型</th>
+                        <th>价格</th>
+                        <th>单位</th>
+                        <th>备注</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for price in prices %}
+                    <tr>
+                        <td><span class="badge {{ 'bg-info' if getattr(price, 'service_type', None) == '陪玩' else 'bg-secondary' }}">{{ getattr(price, 'service_type', '代肝') }}</span></td>
+                        <td>{{ price.game }}</td>
+                        <td>{{ price.task_type }}</td>
+                        <td>￥{{ price.price }}</td>
+                        <td>{{ price.unit or '元/次' }}</td>
+                        <td class="text-muted small">{{ price.remark or '—' }}</td>
+                        <td>
+                            <a href="{{ url_for('edit_prices', price_id=price.id) }}?service_type={{ (service_type|default('代肝'))|urlencode }}" class="btn btn-sm btn-warning">
+                                <i class="fas fa-edit"></i> 编辑
+                            </a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted">暂无价格数据，请<a href="{{ url_for('admin_price_add') }}">手动添加</a>或导入</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="card mt-4">
+    <div class="card-header"><i class="fas fa-images"></i> 价格表图片</div>
+    <div class="card-body">
+        <p class="text-muted small">将价格表截图/参考图放入 <code>uploads/price_table/</code> 文件夹，或在此上传，前台价格表页会展示。支持 jpg、png、gif、webp。</p>
+        <form method="POST" enctype="multipart/form-data" class="mb-3">
+            <div class="drop-zone d-inline-block">
+                <span class="drop-zone-hint"><i class="fas fa-cloud-upload-alt"></i> 拖到此处或点击选择</span>
+                <input type="file" name="price_table_image" accept="image/*">
+            </div>
+            <button type="submit" class="btn btn-success ms-2"><i class="fas fa-upload"></i> 上传</button>
+        </form>
+        {% if price_table_images %}
+        <div class="row g-2">
+            {% for f in price_table_images %}
+            <div class="col-md-3 col-6">
+                <a href="{{ url_for('serve_upload', filename='price_table/' + f) }}" target="_blank" class="d-block border rounded overflow-hidden">
+                    <img src="{{ url_for('serve_upload', filename='price_table/' + f) }}" alt="价格表" class="img-fluid" style="height:120px;object-fit:cover;width:100%;">
+                </a>
+                <small class="text-muted">{{ f }}</small>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-muted mb-0">暂无价格表图片。</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

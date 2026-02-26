@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container fade-in">
+    <div class="card border-warning">
+        <div class="card-header bg-light">
+            <i class="fas fa-gem"></i> 私人定制
+        </div>
+        <div class="card-body">
+            <h5 class="text-warning"><i class="fas fa-lock"></i> 仅年卡及以上会员可享受私人定制</h5>
+            {% if reason == 'login' %}
+            <p class="mb-3">请先登录顾客账号后再使用私人定制。开通<strong>年卡</strong>或<strong>终身会员</strong>后，即可在此提交自定义需求与报价。</p>
+            <p class="mb-3">您也可以<a href="{{ url_for('customer_request_submit') }}">提交需求与报价</a>。</p>
+            <a href="{{ url_for('customer_query') }}" class="btn btn-primary">去登录 / 查订单</a>
+            {% else %}
+            <p class="mb-3">您当前套餐未达「年卡」或「终身会员」。升级为年卡或终身会员后，即可使用私人定制（高端专属）。</p>
+            <p class="mb-3">您也可以<a href="{{ url_for('customer_request_submit') }}">提交需求与报价</a>。</p>
+            <a href="{{ url_for('index', _anchor='member-recharge') }}" class="btn btn-primary"><i class="fas fa-gem"></i> 升级会员</a>
+            {% endif %}
+            <a href="{{ url_for('customer_request_submit') }}" class="btn btn-success">提交需求</a>
+            <a href="{{ url_for('customer_order') }}" class="btn btn-outline-secondary">按价格表下单</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-edit"></i> 报价意向详情
+    </div>
+    <div class="card-body">
+        <p><strong>意向号：</strong> {{ req.request_no }}</p>
+        <p><strong>游戏：</strong> {{ req.game }}</p>
+        <p><strong>任务类型：</strong> {{ req.task_type }}</p>
+        <p><strong>您的报价：</strong> ￥{{ "%.2f"|format(req.offered_price) }}</p>
+        <p><strong>状态：</strong>
+            <span class="badge {% if req.status == '待接单' %}bg-info{% elif req.status == '已接单' %}bg-warning{% else %}bg-success{% endif %}">{{ req.status }}</span>
+        </p>
+        {% if req.player %}
+        <p><strong>接单打手：</strong> {{ req.player.player_name }}</p>
+        {% endif %}
+        <p><strong>需求描述：</strong> {{ req.notes or '—' }}</p>
+        {% if req.screenshot %}
+        <p><strong>截图：</strong> <a href="{{ url_for('static', filename='uploads/'+req.screenshot) }}" target="_blank">查看</a></p>
+        {% endif %}
+        <hr>
+        {% if req.status == '待接单' %}
+        <p class="text-muted">等待打手接单，接单后请完成支付，支付成功后将生成订单。</p>
+        {% elif req.status == '已接单' %}
+        <a href="{{ url_for('customer_custom_pay', request_id=req.id) }}" class="btn btn-success">去支付</a>
+        {% elif req.status == '已支付' and req.order_id %}
+        <a href="{{ url_for('customer_order_detail', order_id=req.order_id) }}" class="btn btn-primary">查看订单</a>
+        {% endif %}
+        <a href="{{ url_for('customer_orders') }}?phone={{ req.customer.phone }}" class="btn btn-secondary">返回订单列表</a>
+    </div>
+</div>
+{% endblock %}

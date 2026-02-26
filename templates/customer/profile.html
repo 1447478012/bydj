@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container fade-in">
+    <div class="card">
+        <div class="card-header">
+            <i class="fas fa-user-circle"></i> 个人中心
+        </div>
+        <div class="card-body">
+            <h5>手机号：{{ customer.phone }}</h5>
+            <p>昵称：{{ customer.name or '未设置' }}</p>
+            <p>会员状态：{% if membership %}{{ membership.plan.name }}（有效期至 {{ membership.end_date.strftime('%Y-%m-%d') }}）{% else %}普通用户 <a href="{{ url_for('member_buy', plan_id=1) }}">立即开通</a>{% endif %}</p>
+            <p>可消费余额：<strong class="text-primary">￥{{ "%.2f"|format(customer.balance or 0) }}</strong>（购买会员的金额可在此消费，下单支付时可抵扣）</p>
+            <a href="{{ url_for('customer_orders') }}?phone={{ customer.phone }}" class="btn btn-primary">我的订单</a>
+            <a href="{{ url_for('customer_my_requests') }}" class="btn btn-outline-info">我的报价意向</a>
+            <a href="{{ url_for('customer_my_messages') }}" class="btn btn-outline-info"><i class="fas fa-comment-dots"></i> 我的留言</a>
+            <a href="{{ url_for('customer_order') }}" class="btn btn-success"><i class="fas fa-plus-circle"></i> 创建订单</a>
+            <a href="{{ url_for('customer_request_submit') }}" class="btn btn-outline-success"><i class="fas fa-paper-plane"></i> 提交需求</a>
+            <a href="{{ url_for('customer_order_custom') }}" class="btn btn-outline-info"><i class="fas fa-gem"></i> 私人定制（年卡及以上）</a>
+            <a href="{{ url_for('customer_gift_send') }}" class="btn btn-outline-primary"><i class="fas fa-gift"></i> 赠送礼物</a>
+            <a href="{{ url_for('customer_gifts_sent') }}" class="btn btn-outline-secondary">我送出的礼物</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

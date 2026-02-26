@@ -1,0 +1,56 @@
+/* 游戏 · 三角洲 - 战术军绿 */
+.navbar { background: rgba(30, 45, 35, 0.92) !important; backdrop-filter: blur(10px); border-bottom: 3px solid #689f38; box-shadow: 0 4px 15px rgba(104, 159, 56, 0.4); border-radius: 0 0 30px 30px; padding: 15px 0 25px 0; }
+.navbar-brand { font-size: 2rem; font-weight: 700; color: #c5e1a5 !important; text-shadow: 2px 2px 0 #1b2e1a; letter-spacing: 2px; }
+.navbar-brand i { color: #8bc34a; }
+.btn-logout { background: linear-gradient(135deg, #558b2f, #689f38); border: 2px solid #33691e; color: #fff !important; border-radius: 40px; padding: 8px 16px; font-weight: 600; box-shadow: 0 4px 12px rgba(104, 159, 56, 0.45); }
+.btn-logout:hover { background: linear-gradient(135deg, #689f38, #7cb342); transform: scale(1.02); box-shadow: 0 6px 16px rgba(124, 179, 66, 0.5); }
+.navbar .nav-text { color: #aed581; font-weight: 600; }
+.card { background: rgba(35, 52, 40, 0.88); backdrop-filter: blur(10px); border: 2px solid #7cb342; border-radius: 24px; box-shadow: 0 15px 35px rgba(83, 139, 47, 0.35); overflow: hidden; }
+.card-header { background: linear-gradient(135deg, #2e3d32, #3d5c34); border-bottom: 2px solid #689f38; font-size: 1.6rem; font-weight: 700; color: #c5e1a5; padding: 20px 30px; }
+.card-header i { color: #8bc34a; }
+.card-body { padding: 30px; }
+.table { background: rgba(40, 58, 45, 0.65); border-radius: 24px; overflow: hidden; box-shadow: 0 8px 20px rgba(83, 139, 47, 0.28); }
+.table th { background: #33691e; color: #dcedc8; font-weight: 700; padding: 15px 20px; border-bottom: 2px solid #558b2f; }
+.table td { padding: 15px 20px; border-bottom: 1px solid #1b2e1a; background: rgba(50, 70, 55, 0.5); color: #c5e1a5; }
+.table tbody tr:hover td { background: rgba(104, 159, 56, 0.15); }
+.btn-primary { background: linear-gradient(135deg, #558b2f, #689f38); color: #fff; }
+.btn-primary:hover { background: linear-gradient(135deg, #7cb342, #8bc34a); }
+.form-control, .form-select { border: 2px solid #7cb342; border-radius: 24px; padding: 12px 20px; background: rgba(25, 38, 30, 0.88); color: #dcedc8; }
+.form-control:focus, .form-select:focus { border-color: #8bc34a; box-shadow: 0 0 15px rgba(139, 195, 74, 0.3); }
+.form-label { font-weight: 600; color: #aed581; margin-left: 15px; }
+a { color: #8bc34a; }
+a:hover { color: #c5e1a5; }
+.bg-success { background: #2e7d32 !important; color: #fff; }
+.bg-warning { background: #afb42b !important; color: #2e3326; }
+.bg-secondary { background: #455a44 !important; color: #c5e1a5; }
+.badge.bg-info { background: #558b2f !important; color: #fff; }
+/* 首页 */
+.navbar-light.bg-light { background: linear-gradient(135deg, #1b2e1a, #2e3d32) !important; border-bottom: 2px solid #689f38; }
+.navbar-light .navbar-brand { color: #c5e1a5 !important; }
+.hero-section { background: linear-gradient(135deg, #1b2e1a 0%, #2e3d32 50%, #3d5c34 100%); border-color: #689f38; box-shadow: 0 8px 32px rgba(104, 159, 56, 0.3); }
+.hero-section h1 { color: #dcedc8; }
+.hero-section p { color: #aed581; }
+.hero-section .btn-hero { background: linear-gradient(135deg, #558b2f, #689f38); color: #fff; border: none; }
+.hero-section .btn-hero:hover { background: linear-gradient(135deg, #7cb342, #8bc34a); color: #fff; }
+.hero-section .btn-hero-news { background: linear-gradient(135deg, #33691e, #558b2f); color: #fff; }
+.hero-section .btn-hero-news:hover { background: linear-gradient(135deg, #558b2f, #689f38); color: #fff; }
+.home-nav-price { background: linear-gradient(135deg, #558b2f, #33691e) !important; color: #fff !important; border-color: #1b2e1a !important; }
+.home-nav-price:hover { background: linear-gradient(135deg, #689f38, #558b2f) !important; color: #fff !important; }
+.home-nav-news { background: linear-gradient(135deg, #33691e, #2e5c2a) !important; color: #fff !important; border-color: #1b2e1a !important; }
+.home-nav-news:hover { background: linear-gradient(135deg, #558b2f, #33691e) !important; color: #fff !important; }
+.trust-icon { color: #8bc34a !important; }
+.section-title { color: #aed581 !important; }
+.section-title i { color: #689f38; }
+.content-group { background: linear-gradient(180deg, rgba(27,46,26,0.5) 0%, rgba(46,61,50,0.4) 100%); border-color: #7cb342; }
+.home-card .card-header { background: linear-gradient(135deg, #2e3d32, #3d5c34); color: #c5e1a5; }
+.member-card-theme-0 { background: linear-gradient(160deg, #1b2e1a, #2e3d32); border-color: #689f38; }
+.member-card-theme-0 .plan-icon, .member-card-theme-0 .plan-name { color: #aed581; }
+.member-card-theme-0 .plan-price { color: #dcedc8; }
+.member-card-theme-0 .plan-cta { background: linear-gradient(135deg, #558b2f, #689f38); color: #fff; }
+.login-btn { background: linear-gradient(135deg, #558b2f, #689f38) !important; color: #fff !important; border-color: #33691e !important; }
+.login-btn:hover { background: linear-gradient(135deg, #7cb342, #8bc34a) !important; color: #fff !important; }
+.game-category-card:hover { border-color: #8bc34a; box-shadow: 0 16px 40px rgba(139, 195, 74, 0.35); }
+.flash-sale-float { background: linear-gradient(145deg, #2e3d32, #3d5c34); border-color: #689f38; }
+.new-user-float { background: linear-gradient(135deg, #1b2e1a, #2e3d32); border-color: #7cb342; }
+.new-user-float .float-title { color: #aed581; }
+.red-dot { background-color: #c62828; box-shadow: 0 0 10px #c62828; }

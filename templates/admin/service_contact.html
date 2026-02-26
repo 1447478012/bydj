@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <span><i class="fas fa-cog"></i> 客服联系信息</span>
+        <a href="{{ url_for('admin_service_messages') }}" class="btn btn-outline-primary btn-sm"><i class="fas fa-inbox me-1"></i> 顾客留言</a>
+    </div>
+    <div class="card-body">
+        <p class="text-muted small">以下信息将展示在「联系客服」页面，供顾客查看。留空则不显示该项。</p>
+        <form method="POST" action="{{ url_for('admin_service_contact') }}">
+            <div class="mb-3">
+                <label class="form-label">微信</label>
+                <input type="text" name="wechat" class="form-control" value="{{ contact.wechat or '' }}" placeholder="客服微信号">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">QQ</label>
+                <input type="text" name="qq" class="form-control" value="{{ contact.qq or '' }}" placeholder="客服QQ号">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">电话</label>
+                <input type="text" name="phone" class="form-control" value="{{ contact.phone or '' }}" placeholder="客服电话">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">服务时间</label>
+                <input type="text" name="work_time" class="form-control" value="{{ contact.work_time or '' }}" placeholder="如：9:00-22:00">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">补充说明</label>
+                <textarea name="extra_note" class="form-control" rows="2" placeholder="可选">{{ contact.extra_note or '' }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">保存</button>
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-secondary">返回面板</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

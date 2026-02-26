@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-comment-dots"></i> 留言详情与回复</span>
+        <a href="{{ url_for('admin_service_messages') }}" class="btn btn-outline-secondary btn-sm">返回列表</a>
+    </div>
+    <div class="card-body">
+        <div class="mb-4">
+            <p class="mb-1"><strong>时间</strong> {{ msg.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+            <p class="mb-1"><strong>称呼</strong> {{ msg.name }}</p>
+            <p class="mb-1"><strong>联系方式</strong> <span class="badge bg-secondary">{{ msg.contact_type }}</span> {{ msg.contact_value }}</p>
+            {% if msg.order_no %}
+            <p class="mb-1"><strong>关联订单</strong> {{ msg.order_no }}</p>
+            {% endif %}
+            <div class="mt-2 p-3 bg-light rounded">
+                <strong>留言内容</strong><br>
+                {{ msg.content | replace('\n', '<br>') | safe }}
+            </div>
+        </div>
+        <form method="POST" action="{{ url_for('admin_service_message_reply', msg_id=msg.id) }}">
+            <div class="mb-3">
+                <label class="form-label">客服回复</label>
+                <textarea name="admin_reply" class="form-control" rows="4" placeholder="输入回复内容后保存">{{ msg.admin_reply or '' }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">保存回复</button>
+            <a href="{{ url_for('admin_service_messages') }}" class="btn btn-outline-secondary">返回列表</a>
+        </form>
+        {% if msg.replied_at %}
+        <p class="small text-muted mt-2">回复时间：{{ msg.replied_at.strftime('%Y-%m-%d %H:%M') }}</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

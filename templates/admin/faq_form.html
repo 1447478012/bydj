@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-question-circle"></i> {{ '编辑 FAQ' if item else '添加 FAQ' }}
+    </div>
+    <div class="card-body">
+        <form method="post" action="{{ url_for('admin_faq_edit', item_id=item.id) if item else url_for('admin_faq_add') }}">
+            <div class="mb-3">
+                <label class="form-label">问题 *</label>
+                <input type="text" name="question" class="form-control" value="{{ item.question if item else '' }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">答案 *</label>
+                <textarea name="answer" class="form-control" rows="5" required>{{ item.answer if item else '' }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">排序</label>
+                <input type="number" name="sort_order" class="form-control" value="{{ item.sort_order if item else 0 }}">
+            </div>
+            <button type="submit" class="btn btn-primary">保存</button>
+            <a href="{{ url_for('admin_faq_list') }}" class="btn btn-outline-secondary">返回</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

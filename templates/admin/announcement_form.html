@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-bullhorn"></i> {{ '编辑公告' if item else '添加公告' }}
+    </div>
+    <div class="card-body">
+        <form method="post" action="{{ url_for('admin_announcement_edit', item_id=item.id) if item else url_for('admin_announcement_add') }}">
+            <div class="mb-3">
+                <label class="form-label">标题 *</label>
+                <input type="text" name="title" class="form-control" value="{{ item.title if item else '' }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">内容</label>
+                <textarea name="content" class="form-control" rows="3">{{ item.content if item else '' }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">链接（选填）</label>
+                <input type="text" name="link_url" class="form-control" value="{{ item.link_url if item else '' }}" placeholder="https://">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">排序（数字越大越靠前）</label>
+                <input type="number" name="sort_order" class="form-control" value="{{ item.sort_order if item else 0 }}">
+            </div>
+            <div class="mb-3">
+                <div class="form-check">
+                    <input type="checkbox" name="is_active" value="1" class="form-check-input" id="is_active" {% if not item or item.is_active %}checked{% endif %}>
+                    <label class="form-check-label" for="is_active">启用（前台显示）</label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">保存</button>
+            <a href="{{ url_for('admin_announcements') }}" class="btn btn-outline-secondary">返回</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
